@@ -1,20 +1,18 @@
 const express = require("express");
 const {
-    accessPost,
-    createPost,
-    deletePost,
-    updatePost,
-    likePost
-  } = require("../controllers/postControllers")
+    accessTinTuyenDung,
+    createTinTuyenDung,
+    deleteTinTuyenDung,
+    updateTinTuyenDung
+  } = require("../controllers/tinTuyenDungControlers")
   const { protect } = require("../middleware/authMiddleware")
 
   const router = express.Router();
   
-router.route("/").get(accessPost);
-router.route("/").post(protect,createPost);
-router.route("/update").put(protect,updatePost);
-router.route("/").delete(protect,deletePost);
-router.route("/like").put(protect,likePost);
+router.route("/").get(accessTinTuyenDung);
+router.route("/").post(protect,createTinTuyenDung);
+router.route("/update").put(protect,updateTinTuyenDung);
+router.route("/").delete(protect,deleteTinTuyenDung);
 
 module.exports = router;
 
