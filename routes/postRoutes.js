@@ -4,7 +4,7 @@ const {
     createTinTuyenDung,
     deleteTinTuyenDung,
     updateTinTuyenDung
-  } = require("../controllers/tinTuyenDungControlers")
+  } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middleware/authMiddleware")
 
   const router = express.Router();
@@ -15,4 +15,3 @@ router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
 
 module.exports = router;
-

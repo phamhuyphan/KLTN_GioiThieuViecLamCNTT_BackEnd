@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-// const bcrypt = require("bcrypt");
 const bcrypt = require("bcryptjs");
 const UserOTPVerification = require("../models/userOTPVarification")
 dotenv.config();
