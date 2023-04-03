@@ -2,10 +2,10 @@ const asyncHandler = require("express-async-handler")
 const Post = require("../models/tinTuyenDungModel")
 
 const accessTinTuyenDung = asyncHandler(async (req, res) => {
-    let post =  Post.find()
+    let post = await  Post.find()
             .populate("nguoidang", "-password");
-    res.json(post)
-})
+    res.send(post);
+});
 
 const createTinTuyenDung = asyncHandler(async (req, res) => {
 
@@ -30,29 +30,29 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
     })
 
     if(createPost){
-        res.json(createPost);
+        res.send(createPost);
     }else{
         res.status(404);
-        throw new Error(`Create not su`);
+        throw new Error(`Create not sure`);
     }
 
-})
+});
 
 const deleteTinTuyenDung = asyncHandler(async (req, res) => {
     const { postId } = req.body;
-    let deletePost =  Post.deleteOne({_id:postId})
+    let deletePost = await Post.deleteOne({_id:postId})
     if(deletePost){
         res.send("delete "+postId)
     }else{
         res.status(404);
-        throw new Error(`Delete not su`);
+        throw new Error(`Delete not sure`);
     }
 
 })
 
 const updateTinTuyenDung = asyncHandler(async (req, res) => {
     const { postId } = req.body;
-    let update = Post.findByIdAndUpdate(postId,{
+    let update = await Post.findByIdAndUpdate(postId,{
         tieude: req.body.tieude,
         vitri:req.body.vitri,
         soluongungtuyen: req.body.soluongungtuyen,
@@ -72,10 +72,10 @@ const updateTinTuyenDung = asyncHandler(async (req, res) => {
     })
 
     if(update){
-        res.json(update)
+        res.send(update);
     }else{
         res.status(404);
-        throw new Error(`Delete not su`);
+        throw new Error(`Update not sure`);
     }
 })
 

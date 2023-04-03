@@ -4,8 +4,8 @@ const {
     createTinTuyenDung,
     deleteTinTuyenDung,
     updateTinTuyenDung
-  } = require("../controllers/tinTuyenDungControllers")
-  const { protect } = require("../middleware/authMiddleware")
+  } = require("../controllers/tinTuyenDungControllers");
+  const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   

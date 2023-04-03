@@ -21,7 +21,7 @@ const postSchema= mongoose.Schema(
     
     mota:{type: String, trim: true},
 
-    tuTuoi:{type: Number, trim: true},
+    tutuoi:{type: Number, trim: true},
 
     dentuoi:{type: Number, trim: true},
 
@@ -31,10 +31,9 @@ const postSchema= mongoose.Schema(
 
     ngaycapnhat:{type: Date, trim: true},
 
-    sunenh:{type: String, trim: true},
+    sumenh:{type: String, trim: true},
     
     nguoidang: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-
   },
   { timestamps: true }
 );

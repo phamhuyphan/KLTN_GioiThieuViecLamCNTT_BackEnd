@@ -14,7 +14,7 @@ const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.route("/").get(protect, allUsers);
+router.route("/").get(protect,allUsers);
 router.route("/addfriend").put(protect, addFriend);
 router.route("/").post(registerUser);
 router.route("/verify").post(sendEmail);

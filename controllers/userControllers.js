@@ -10,16 +10,19 @@ dotenv.config();
 //@description     Get or Search all users
 //@route           GET /api/user?search=
 //@access          Public
+//@description     Get or Search all users
+//@route           GET /api/user?search=
+//@access          Public
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
-      $or: [
-        { username: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
+        $or: [
+          { username: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
     : {};
-  console.log(req.user);
+
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
 });

@@ -8,10 +8,12 @@ dotenv.config();
 connectDB();
 
 const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/user", userRoutes);
+app.use("/api/tintuyendung", postRoutes);
 
 
 const PORT = process.env.PORT;
