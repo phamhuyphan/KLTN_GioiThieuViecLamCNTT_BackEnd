@@ -19,7 +19,9 @@ const nhatuyendungSchema= mongoose.Schema(
 
     email:{type: String, trim: true},
     
-    loainhatuyendung:{type: String, trim: true}
+    loainhatuyendung:{type: String, trim: true},
+
+    taikhoan: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 
   },
   { timestamps: true }
@@ -27,4 +29,4 @@ const nhatuyendungSchema= mongoose.Schema(
 
 const NhaTuyenDung = mongoose.model("NhaTuyenDung", nhatuyendungSchema);
 
-module.exports = NhaTuyenDung;
+module.exports = NhaTuyenDung;  

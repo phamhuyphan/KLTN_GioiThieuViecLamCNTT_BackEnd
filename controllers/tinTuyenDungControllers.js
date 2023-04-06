@@ -26,7 +26,7 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
         phucloi:req.body.phucloi,
         ngaycapnhat:req.body.ngaycapnhat,
         sumenh:req.body.sumenh,
-        nguoidang:req.user,
+        nguoidang:req.user.id,
     })
 
     if(createPost){

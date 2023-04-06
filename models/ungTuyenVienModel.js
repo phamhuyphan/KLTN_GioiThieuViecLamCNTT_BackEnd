@@ -27,6 +27,8 @@ const ungtuyenvienSchema= mongoose.Schema(
 
     muctieulamviec:{type: String, trim: true},
     
+    taikhoan: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    
 
   },
   { timestamps: true }

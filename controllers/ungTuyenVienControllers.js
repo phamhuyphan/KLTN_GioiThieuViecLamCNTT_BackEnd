@@ -2,9 +2,9 @@ const asyncHandler = require("express-async-handler")
 const UngTuyenVien = require("../models/ungTuyenVienModel")
 
 const accessUngTuyenVien = asyncHandler(async (req, res) => {
-//     let post =  Post.find()
-//             .populate("nguoidang", "-password");
-//     res.json(post)
+    let post = await UngTuyenVien.find()
+            .populate("taikhoan", "-password");
+    res.json(post)
 })
 
 const createUngTuyenVien = asyncHandler(async (req, res) => {
@@ -23,6 +23,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
         cv:req.body.cv,
         vitriungtuyen:req.body.vitriungtuyen,
         muctieulamviec:req.body.muctieulamviec,
+        taikhoan:req.user.id
     })
 
     if(createUngTuyenVien){

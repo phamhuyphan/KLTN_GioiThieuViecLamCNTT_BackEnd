@@ -2,9 +2,9 @@ const asyncHandler = require("express-async-handler")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
 
 const accessNhaTuyenDung = asyncHandler(async (req, res) => {
-//     let post =  Post.find()
-//             .populate("nguoidang", "-password");
-//     res.json(post)
+    let post = await  NhaTuyenDung.find()
+            .populate("taikhoan", "-password");
+    res.json(post)
 })
 
 const createNhaTuyenDung = asyncHandler(async (req, res) => {
@@ -19,7 +19,8 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
         diachiWebsite:req.body.diachiWebsite,
         ngaythamgia:req.body.ngaythamgia,
         email:req.body.email,
-        loainhatuyendung:req.body.loainhatuyendung
+        loainhatuyendung:req.body.loainhatuyendung,
+        taikhoan:req.user.id
     })
 
     if(createNhaTuyenDung){

@@ -31,9 +31,9 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 // const registerUser1 = asyncHandler(async (req, res) => {
-//   const { username, fullname, email, password, pic } = req.body;
+//   const { username, email, password, pic } = req.body;
 
-//   if (!username || !email || !password || !fullname) {
+//   if (!username || !email || !password ) {
 //     res.status(400);
 //     throw new Error("Please Enter all the Feilds");
 //   }
@@ -49,8 +49,8 @@ const allUsers = asyncHandler(async (req, res) => {
 
 //   const user = await User.create({
 //     username,
-//     fullname,
 //     email,
+//     loaitaikhoan,
 //     password,
 //     pic,
 //     verify: false
@@ -61,8 +61,8 @@ const allUsers = asyncHandler(async (req, res) => {
 //     res.status(201).json({
 //       _id: user._id,
 //       username: user.username,
-//       fullname: user.fullname,
 //       email: user.email,
+//       loaitaikhoan:user.loaitaikhoan
 //       //isAdmin: user.isAdmin,
 //       pic: user.pic,
 //       verify: user.verify,
@@ -75,9 +75,9 @@ const allUsers = asyncHandler(async (req, res) => {
 // });
 
 const registerUser1 = asyncHandler(async (req, res) => {
-  const {username, email, password, pic } = req.body;
+  const {username, email, password,loaitaikhoan, pic } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !loaitaikhoan) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -93,6 +93,7 @@ const registerUser1 = asyncHandler(async (req, res) => {
     username,
     email,
     password,
+    loaitaikhoan,
     pic,
   });
 
@@ -101,6 +102,7 @@ const registerUser1 = asyncHandler(async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
+      loaitaikhoan:user.loaitaikhoan,
       //isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id),
@@ -123,8 +125,8 @@ const authUser = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       username: user.username,
-      fullname: user.fullname,
       email: user.email,
+      loaitaikhoan:user.loaitaikhoan,
       //isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id),
@@ -179,55 +181,9 @@ const getUserById = asyncHandler(async (req, res) => {
 
 
 
-
-const addFriend = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  const added = await User.findByIdAndUpdate(
-    req.user._id,
-    { $addToSet: { friends: userId } },
-    { new: true }
-  );
-
-  if (!added) {
-    res.status(404);
-    throw new Error(`Post not found`);
-  } else {
-    res.json({
-      _id: added._id,
-      username: added.username,
-      fullname: added.fullname,
-      email: added.email,
-      friends: added.friends,
-      //isAdmin: user.isAdmin,
-      pic: added.pic,
-    });
-  }
-});
-
-const generateQRCode = asyncHandler(async (req, res) => {
-
-  let data = req.params.userId;
-
-  // Converting the data into String format
-  let stringdata = JSON.stringify(data)
-
-  // Print the QR code to terminal
-  QRCode.toString(stringdata, { type: 'terminal' },
-    (err, QRcode) => {
-      if (err) return console.log(err)
-    })
-  // Converting the data into base64
-  QRCode.toDataURL(stringdata, (err, code) => {
-    if (err) return console.log(err)
-    res.json(code)
-    // Printing the code
-    console.log(code)
-  })
-});
-
 const registerUser = asyncHandler(async (req, res) => {
 
-  const { username, fullname, email, password, pic } = req.body;
+  const { username, email, password,loaitaikhoan, pic } = req.body;
 
   const otp = Math.floor(1000 + Math.random() * 9000);
 
@@ -248,7 +204,7 @@ const registerUser = asyncHandler(async (req, res) => {
     html: `<h2>${otp}</h2>`, // html body
   }
 
-  if (!username || !email || !password || !fullname) {
+  if (!username || !email || !password || !loaitaikhoan ) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -273,9 +229,9 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!userExists) {
     const user = await User.create({
       username,
-      fullname,
       email,
       password,
+      loaitaikhoan,
       pic,
       verify: false
     });
@@ -288,9 +244,9 @@ const registerUser = asyncHandler(async (req, res) => {
       res.status(201).json({
         _id: user._id,
         username: user.username,
-        fullname: user.fullname,
         email: user.email,
         pic: user.pic,
+        loaitaikhoan:user.loaitaikhoan,
         verify: user.verify,
         token: generateToken(user._id),
       });
@@ -330,15 +286,14 @@ const getOTPById = asyncHandler(async (req, res) => {
   }).catch(err => console.log(err))
 
 });
-// sửa thông tin user(username, fullname)
+// sửa thông tin user(username)
 const update = asyncHandler(async (req, res) => {
-  const { _id, username, fullname, pic } = req.body;
+  const { _id, username, pic } = req.body;
 
   const updateInfo = await User.findByIdAndUpdate(
     _id,
     {
       username,
-      fullname,
       pic,
     },
     {
@@ -394,7 +349,6 @@ module.exports = {
   registerUser,
   registerUser1,
   sendEmail,
-  authUser, addFriend,
-  generateQRCode, getOTPById, getUserById, update,
+  authUser, getOTPById, getUserById, update,
   forgotPassword, reserPassword
 };

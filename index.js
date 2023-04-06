@@ -9,11 +9,15 @@ connectDB();
 
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const nhaTuyenDungRoutes = require("./routes/nhatuyendungRoutes");
+const ungtuyenvienRoutes = require("./routes/ungTuyenVienRouters");
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/user", userRoutes);
 app.use("/api/tintuyendung", postRoutes);
+app.use("/api/nhatuyendung", nhaTuyenDungRoutes);
+app.use("/api/ungtuyenvien", ungtuyenvienRoutes);
 
 
 const PORT = process.env.PORT;
