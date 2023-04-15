@@ -15,6 +15,7 @@ const kinhNghiemLamViecSchema= mongoose.Schema(
     
     ungtuyenvien: { type: mongoose.Schema.Types.ObjectId, ref: "UngTuyenVien" }
     
+    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" }
   },
   { timestamps: true }
 );

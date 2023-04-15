@@ -49,7 +49,7 @@ const deleteUngTuyenVien = asyncHandler(async (req, res) => {
 
 const updateUngTuyenVien = asyncHandler(async (req, res) => {
     const { ungTuyenVienId } = req.body;
-    let update = NhaTuyenDung.findByIdAndUpdate(ungTuyenVienId,{
+    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
         hovaten: req.body.hovaten,
         anhdaidien:req.body.anhdaidien,
         sdt: req.body.sdt,
