@@ -1,10 +1,15 @@
 const asyncHandler = require("express-async-handler")
 const Post = require("../models/tinTuyenDungModel")
+const NhaTuyenDung = require("../models/nhaTuyenDungModel")
 
 const accessTinTuyenDung = asyncHandler(async (req, res) => {
-    let post = await  Post.find()
-            .populate("nguoidang", "-password");
-    res.send(post);
+     await  Post.find()
+            .populate("nguoidang", "-password").populate('nhatuyendung').then(data => {
+                let result = data
+                res.json(result)
+            }).catch(error => {
+                res.status(400).send(error.message || error);
+            })
 });
 
 const createTinTuyenDung = asyncHandler(async (req, res) => {
@@ -26,6 +31,7 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
         phucloi:req.body.phucloi,
         ngaycapnhat:req.body.ngaycapnhat,
         sumenh:req.body.sumenh,
+        nhatuyendung:req.nhatuyendung.id,
         nguoidang:req.user.id,
     })
 

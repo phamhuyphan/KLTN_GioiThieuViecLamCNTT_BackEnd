@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-const HocVan = require("../../models/UngTuyenVienModel/HocVanModel")
+const HocVan = require("../../models/UngTuyenVienModel/hocVanModel")
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessHocVan = asyncHandler(async (req, res) => {

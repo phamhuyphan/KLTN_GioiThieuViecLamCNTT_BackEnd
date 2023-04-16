@@ -33,7 +33,9 @@ const postSchema= mongoose.Schema(
 
     sumenh:{type: String, trim: true},
     
-    nguoidang: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+    nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
   },
   { timestamps: true }
 );

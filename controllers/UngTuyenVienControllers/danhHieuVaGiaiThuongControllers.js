@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-const DanhHieuVaGiaiThuong = require("../../models/UngTuyenVienModel/DanhHieuVaGiaiThuongModel")
+const DanhHieuVaGiaiThuong = require("../../models/UngTuyenVienModel/danhHieuVaGiaiThuongModel")
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
@@ -10,7 +10,7 @@ const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
             }).catch(error => {
                 res.status(400).send(error.message || error);
             })
-})
+});
 
 const createDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
 
