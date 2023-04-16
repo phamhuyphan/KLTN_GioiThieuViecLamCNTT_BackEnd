@@ -7,10 +7,6 @@ const linhVucSchema= mongoose.Schema(
 
     nganhnghe: { type: mongoose.Schema.Types.ObjectId, ref: "NganhNghe" },
 
-    nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
-    
-    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-
     tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" }
     
   },

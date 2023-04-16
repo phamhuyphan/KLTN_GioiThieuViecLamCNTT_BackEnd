@@ -5,11 +5,7 @@ const diaDiemSchema= mongoose.Schema(
 
     quanhuyen:{type: String, trim: true},
 
-    nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" },
-
     tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" }
-    
-    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     
   },
   { timestamps: true }
