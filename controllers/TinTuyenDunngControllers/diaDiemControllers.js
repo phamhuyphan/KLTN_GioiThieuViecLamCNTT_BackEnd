@@ -42,12 +42,13 @@ const deleteDiaDiem = asyncHandler(async (req, res) => {
 const updateDiaDiem = asyncHandler(async (req, res) => {
     const { DiaDiemId } = req.params.DiaDiemId;
     const    tinhthanhpho = req.body.tinhthanhpho;
-    const    diadiem = req.body.diadiem;
+    const    quanhuyen = req.body.quanhuyen;
+
     TinTuyenDung.findById(req.params.tintuyendungId).lean()
         .then(() => {
             return DiaDiem.findByIdAndUpdate(req.params.DiaDiemId, {
                 tinhthanhpho,
-                diadiem
+                quanhuyen
             }, { new: true,
                 new1: true}).lean();
         }).then((updateDiaDiem) => {

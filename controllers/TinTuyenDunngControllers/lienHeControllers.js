@@ -5,6 +5,7 @@ const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessLienHe = asyncHandler(async (req, res) => {
     await LienHe.find({ lienhe: req.params.lienheId })
+
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)

@@ -5,6 +5,7 @@ const DonUngTuyen = require("../../models/TinTuyenDungModel/donUngTuyen")
 
 const accessThongTinLienHe = asyncHandler(async (req, res) => {
     await DonUngTuyen.find({ donungtuyen: req.params.donungtuyenId })
+
             .populate('tintuyendung')
             .populate('donungtuyen').then(data => {
                 let result = data
@@ -24,6 +25,7 @@ const createThongTinLienHe = asyncHandler(async (req, res) => {
         donungtuyen: req.donungtuyen.donungtuyenId,
         tintuyendung: req.tintuyendung.tintuyendungId
     }).populate('tintuyendung').populate('donungtuyen').then(data => {
+
         let result = data
         res.json(result)
     }).catch(error => {
@@ -46,6 +48,7 @@ const updateThongTinLienHe = asyncHandler(async (req, res) => {
     const    tenThongTinLienHe = req.body.tenThongTinLienHe;
     const    hinhanh = req.body.hinhanh;
     DonUngTuyen.findById(req.params.donungtuyenId).lean()
+
         .then(() => {
             return ThongTinLienHe.findByIdAndUpdate(req.params.ThongTinLienHeId, {
                 tenThongTinLienHe,

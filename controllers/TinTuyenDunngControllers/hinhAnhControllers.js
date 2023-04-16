@@ -18,6 +18,7 @@ const createHinhAnh = asyncHandler(async (req, res) => {
     let createHinhAnh = await HinhAnh.create({
         tenHinhAnh: req.body.ten,
         tintuyendung:req.tintuyendung.id,
+
     })
 
     if(createHinhAnh){
