@@ -5,7 +5,6 @@ const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessDiaDiem = asyncHandler(async (req, res) => {
     await DiaDiem.find({ DiaDiem: req.params.DiaDiemId })
-            .populate("taikhoan", "-password")
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -19,8 +18,7 @@ const createDiaDiem = asyncHandler(async (req, res) => {
     let createDiaDiem = await DiaDiem.create({
         tinhthanhpho: req.body.tinhthanhpho,
         quanhuyen: req.body.quanhuyen,
-        tintuyendung:req.tintuyendung.id,
-        taikhoan:req.user.id
+        tintuyendung:req.tintuyendung.id
     })
 
     if(createDiaDiem){
@@ -45,6 +43,7 @@ const updateDiaDiem = asyncHandler(async (req, res) => {
     const { DiaDiemId } = req.params.DiaDiemId;
     const    tinhthanhpho = req.body.tinhthanhpho;
     const    quanhuyen = req.body.quanhuyen;
+
     TinTuyenDung.findById(req.params.tintuyendungId).lean()
         .then(() => {
             return DiaDiem.findByIdAndUpdate(req.params.DiaDiemId, {

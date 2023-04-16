@@ -4,8 +4,8 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const DonUngTuyen = require("../../models/TinTuyenDungModel/donUngTuyen")
 
 const accessThongTinLienHe = asyncHandler(async (req, res) => {
-    await DonUngTuyen.find({ ThongTinLienHe: req.params.ThongTinLienHeId })
-            .populate("taikhoan", "-password")
+    await DonUngTuyen.find({ donungtuyen: req.params.donungtuyenId })
+
             .populate('tintuyendung')
             .populate('donungtuyen').then(data => {
                 let result = data
@@ -22,9 +22,10 @@ const createThongTinLienHe = asyncHandler(async (req, res) => {
         sdt: req.user.sdt,
         email: req.user.email,
         loigioithieu: req.user.loigioithieu,
-        donungtuyen: req.donungtuyen._id,
+        donungtuyen: req.donungtuyen.donungtuyenId,
         tintuyendung: req.tintuyendung.tintuyendungId
-    }).populate('sender', '-password').populate('post').then(data => {
+    }).populate('tintuyendung').populate('donungtuyen').then(data => {
+
         let result = data
         res.json(result)
     }).catch(error => {
@@ -46,7 +47,8 @@ const updateThongTinLienHe = asyncHandler(async (req, res) => {
     const { ThongTinLienHeId } = req.params.ThongTinLienHeId;
     const    tenThongTinLienHe = req.body.tenThongTinLienHe;
     const    hinhanh = req.body.hinhanh;
-    TinTuyenDung.findById(req.params.tintuyendungId).lean()
+    DonUngTuyen.findById(req.params.donungtuyenId).lean()
+
         .then(() => {
             return ThongTinLienHe.findByIdAndUpdate(req.params.ThongTinLienHeId, {
                 tenThongTinLienHe,

@@ -5,7 +5,7 @@ const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessLienHe = asyncHandler(async (req, res) => {
     await LienHe.find({ lienhe: req.params.lienheId })
-            .populate("taikhoan", "-password")
+
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -20,8 +20,7 @@ const createLienHe = asyncHandler(async (req, res) => {
         ten: req.body.ten,
         sdt: req.body.sdt,
         email: req.body.email,
-        tintuyendung:req.tintuyendung.id,
-        taikhoan:req.user.id
+        tintuyendung:req.tintuyendung.id
     })
 
     if(createLienHe){

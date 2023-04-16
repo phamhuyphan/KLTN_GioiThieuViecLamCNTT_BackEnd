@@ -1,11 +1,10 @@
 const asyncHandler = require("express-async-handler")
 const LinhVuc = require("../../models/TinTuyenDungModel/linhVuc")
 const TinTuyenDung = require("../../models/tinTuyenDungModel")
-const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
+const NganhNghe = require("../../models/TinTuyenDungModel/nganhNgheModel")
 
 const accessLinhVuc = asyncHandler(async (req, res) => {
-    await LinhVuc.find({ LinhVuc: req.params.LinhVucId })
-            .populate("taikhoan", "-password")
+    await NganhNghe.find({ nganhnghe: req.params.nganhngheId })
             .populate('tintuyendung')
             .populate('nganhnghe').then(data => {
                 let result = data
@@ -21,8 +20,8 @@ const createLinhVuc = asyncHandler(async (req, res) => {
         tenlinhvuc: req.body.tenlinhvuc,
         hinhanh: req.body.hinhanh,
         tintuyendung:req.tintuyendung.id,
-        nganhnghe:req.nganhnghe.id,
-        taikhoan:req.user.id
+        nganhnghe:req.nganhnghe.id
+
     })
 
     if(createLinhVuc){

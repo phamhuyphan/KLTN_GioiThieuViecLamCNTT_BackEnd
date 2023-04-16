@@ -4,8 +4,8 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessNganhNghe = asyncHandler(async (req, res) => {
-    await NganhNghe.find({ NganhNghe: req.params.NganhNgheId })
-            .populate("taikhoan", "-password")
+    await TinTuyenDung.find({ tintuyendung: req.params.tintuyendungId })
+
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -15,19 +15,15 @@ const accessNganhNghe = asyncHandler(async (req, res) => {
 })
 
 const createNganhNghe = asyncHandler(async (req, res) => {
-
-    let createNganhNghe = await NganhNghe.create({
-        tennganhnghe: req.body.tennganhnghe,
-        tintuyendung:req.tintuyendung.id,
-        taikhoan:req.user.id
+    Comment.create({
+        tennganhnghe: req.user.tennganhnghe,
+        tintuyendung: req.body.tintuyendungId
+    }).populate('tintuyendung').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error)
     })
-
-    if(createNganhNghe){
-        res.json(createNganhNghe);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
 
 })
 
