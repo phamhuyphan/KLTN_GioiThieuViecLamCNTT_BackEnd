@@ -17,7 +17,7 @@ const createDiaDiem = asyncHandler(async (req, res) => {
 
     let createDiaDiem = await DiaDiem.create({
         tinhthanhpho: req.body.tinhthanhpho,
-        diadiem: req.body.diadiem,
+        quanhuyen: req.body.quanhuyen,
         tintuyendung:req.tintuyendung.id
     })
 
