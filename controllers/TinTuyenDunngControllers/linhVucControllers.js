@@ -21,6 +21,7 @@ const createLinhVuc = asyncHandler(async (req, res) => {
         hinhanh: req.body.hinhanh,
         tintuyendung:req.tintuyendung.id,
         nganhnghe:req.nganhnghe.id
+
     })
     .populate('tintuyendung')
     .populate('nganhnghe').then(data => {

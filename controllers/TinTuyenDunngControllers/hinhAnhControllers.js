@@ -18,6 +18,7 @@ const createHinhAnh = asyncHandler(async (req, res) => {
      HinhAnh.create({
         tenHinhAnh: req.body.ten,
         tintuyendung:req.tintuyendung.id,
+
     })
     .populate('tintuyendung').then(data => {
         let result = data
