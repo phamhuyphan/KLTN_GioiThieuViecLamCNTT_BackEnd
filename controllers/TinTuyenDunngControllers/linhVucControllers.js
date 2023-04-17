@@ -4,7 +4,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NganhNghe = require("../../models/TinTuyenDungModel/nganhNgheModel")
 
 const accessLinhVuc = asyncHandler(async (req, res) => {
-    await NganhNghe.find({ nganhnghe: req.params.nganhngheId })
+    await LinhVuc.find({ nganhnghe: req.params.nganhngheId })
             .populate('tintuyendung')
             .populate('nganhnghe').then(data => {
                 let result = data
@@ -16,19 +16,19 @@ const accessLinhVuc = asyncHandler(async (req, res) => {
 
 const createLinhVuc = asyncHandler(async (req, res) => {
 
-    let createLinhVuc = await LinhVuc.create({
+     LinhVuc.create({
         tenlinhvuc: req.body.tenlinhvuc,
         hinhanh: req.body.hinhanh,
         tintuyendung:req.tintuyendung.id,
         nganhnghe:req.nganhnghe.id
     })
-
-    if(createLinhVuc){
-        res.json(createLinhVuc);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate('tintuyendung')
+    .populate('nganhnghe').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 

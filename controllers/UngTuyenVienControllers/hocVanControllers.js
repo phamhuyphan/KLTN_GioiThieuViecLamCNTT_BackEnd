@@ -3,7 +3,7 @@ const HocVan = require("../../models/UngTuyenVienModel/hocVanModel")
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessHocVan = asyncHandler(async (req, res) => {
-    await UngTuyenVien.find({ HocVan: req.params.hocVanId })
+    await HocVan.find({ ungtuyenvien: req.params.ungtuyenvienId })
             .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
@@ -14,7 +14,7 @@ const accessHocVan = asyncHandler(async (req, res) => {
 
 const createHocVan = asyncHandler(async (req, res) => {
 
-    let createHocVan = await HocVan.create({
+     HocVan.create({
         tenNganhHoc: req.body.chucvu,
         tenTruongHoc: req.body.tencty,
         tungay: req.body.tungay,
@@ -24,13 +24,12 @@ const createHocVan = asyncHandler(async (req, res) => {
         ungtuyenvien:req.ungtuyenvien.id,
         taikhoan:req.user.id
     })
-
-    if(createHocVan){
-        res.json(createHocVan);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 

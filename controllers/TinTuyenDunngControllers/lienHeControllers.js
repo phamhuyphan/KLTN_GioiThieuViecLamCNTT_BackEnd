@@ -4,7 +4,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessLienHe = asyncHandler(async (req, res) => {
-    await LienHe.find({ lienhe: req.params.lienheId })
+    await LienHe.find({ tintuyendung: req.params.tintuyendungId })
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -15,19 +15,18 @@ const accessLienHe = asyncHandler(async (req, res) => {
 
 const createLienHe = asyncHandler(async (req, res) => {
 
-    let createLienHe = await LienHe.create({
+     LienHe.create({
         ten: req.body.ten,
         sdt: req.body.sdt,
         email: req.body.email,
         tintuyendung:req.tintuyendung.id
     })
-
-    if(createLienHe){
-        res.json(createLienHe);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate('tintuyendung').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 

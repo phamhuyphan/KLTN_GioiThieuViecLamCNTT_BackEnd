@@ -3,7 +3,7 @@ const KinhNghiemLamViec = require("../../models/UngTuyenVienModel/kinhNghiemLamV
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessKinhNghiemLamViec = asyncHandler(async (req, res) => {
-    await UngTuyenVien.find({ KinhNghiemLamViec: req.params.kinhNghiemLamViecId })
+    await KinhNghiemLamViec.find({ ungtuyenvien: req.params.ungtuyenvienId })
             .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
@@ -24,13 +24,12 @@ const createKinhNghiemLamViec = asyncHandler(async (req, res) => {
         ungtuyenvien:req.ungtuyenvien.id,
         taikhoan:req.user.id
     })
-
-    if(createKinhNghiemLamViec){
-        res.json(createKinhNghiemLamViec);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 

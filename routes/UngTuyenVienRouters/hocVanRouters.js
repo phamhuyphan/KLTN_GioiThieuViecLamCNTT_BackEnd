@@ -5,7 +5,7 @@ const {
     deleteHocVan,
     updateHocVan
   } = require("../../controllers/UngTuyenVienControllers/hocVanControllers")
-  const { protect } = require("../middlewares/authMiddleware")
+  const { protect } = require("../../middlewares/authMiddleware")
 
   const router = express.Router();
   

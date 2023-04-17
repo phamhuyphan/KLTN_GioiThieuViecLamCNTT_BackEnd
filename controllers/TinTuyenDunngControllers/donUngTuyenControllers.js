@@ -4,7 +4,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessDonUngTuyen = asyncHandler(async (req, res) => {
-    await DonUngTuyen.find({ DonUngTuyen: req.params.DonUngTuyenId })
+    await DonUngTuyen.find({ tintuyendung: req.params.tintuyendungId })
             .populate('tintuyendung')
             .populate('ungtuyenvien').then(data => {
                 let result = data
@@ -16,19 +16,19 @@ const accessDonUngTuyen = asyncHandler(async (req, res) => {
 
 const createDonUngTuyen = asyncHandler(async (req, res) => {
 
-    let createDonUngTuyen = await DonUngTuyen.create({
+     DonUngTuyen.create({
         tinhthanhpho: req.body.tinhthanhpho,
         quanhuyen: req.body.quanhuyen,
         tintuyendung:req.tintuyendung.id,
         ungtuyenvien:req.ungtuyenvien.id
     })
-
-    if(createDonUngTuyen){
-        res.json(createDonUngTuyen);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate('tintuyendung')
+    .populate('ungtuyenvien').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 

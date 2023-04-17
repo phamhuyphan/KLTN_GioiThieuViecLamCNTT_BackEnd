@@ -4,7 +4,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessNganhNghe = asyncHandler(async (req, res) => {
-    await TinTuyenDung.find({ tintuyendung: req.params.tintuyendungId })
+    await NganhNghe.find({ tintuyendung: req.params.tintuyendungId })
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)

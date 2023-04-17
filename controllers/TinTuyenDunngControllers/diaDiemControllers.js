@@ -4,7 +4,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
 const accessDiaDiem = asyncHandler(async (req, res) => {
-    await DiaDiem.find({ DiaDiem: req.params.DiaDiemId })
+    await DiaDiem.find({ tintuyendung: req.params.tintuyendungId })
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -15,18 +15,16 @@ const accessDiaDiem = asyncHandler(async (req, res) => {
 
 const createDiaDiem = asyncHandler(async (req, res) => {
 
-    let createDiaDiem = await DiaDiem.create({
+      DiaDiem.create({
         tinhthanhpho: req.body.tinhthanhpho,
         quanhuyen: req.body.quanhuyen,
         tintuyendung:req.tintuyendung.id
+    }).populate('tintuyendung').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
     })
-
-    if(createDiaDiem){
-        res.json(createDiaDiem);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
 
 })
 

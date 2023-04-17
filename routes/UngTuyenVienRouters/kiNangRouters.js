@@ -5,7 +5,7 @@ const {
     deleteKiNang,
     updateKiNang
   } = require("../../controllers/UngTuyenVienControllers/kiNangControllers")
-  const { protect } = require("../middlewares/authMiddleware")
+  const { protect } = require("../../middlewares/authMiddleware")
 
   const router = express.Router();
   

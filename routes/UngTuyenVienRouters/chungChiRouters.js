@@ -5,7 +5,7 @@ const {
     deleteChungChi,
     updateChungChi
   } = require("../../controllers/UngTuyenVienControllers/chungChiControllers")
-  const { protect } = require("../middlewares/authMiddleware")
+  const { protect } = require("../../middlewares/authMiddleware")
 
   const router = express.Router();
   
