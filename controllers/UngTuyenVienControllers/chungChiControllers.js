@@ -3,7 +3,7 @@ const ChungChi = require("../../models/UngTuyenVienModel/chungChiModel")
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessChungChi = asyncHandler(async (req, res) => {
-    await UngTuyenVien.find({ ChungChi: req.params.ChungChiId })
+    await ChungChi.find({ ungtuyenvien: req.params.ungtuyenvienId })
             .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
@@ -14,7 +14,7 @@ const accessChungChi = asyncHandler(async (req, res) => {
 
 const createChungChi = asyncHandler(async (req, res) => {
 
-    let createChungChi = await ChungChi.create({
+     ChungChi.create({
         tenchungchi: req.body.tenchungchi,
         loaichungchi: req.body.loaichungchi,
         nhacungcaochungchi: req.body.nhacungcaochungchi,
@@ -23,13 +23,12 @@ const createChungChi = asyncHandler(async (req, res) => {
         ungtuyenvien:req.ungtuyenvien.id,
         taikhoan:req.user.id
     })
-
-    if(createChungChi){
-        res.json(createChungChi);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 
@@ -49,7 +48,7 @@ const updateChungChi = asyncHandler(async (req, res) => {
     const   nhacungcaochungchi= req.body.nhacungcaochungchi;
     const   ngaycap= req.body.ngaycap;
     const   ngayhethan= req.body.ngayhethan;
-    UngTuyenVien.findById(req.params.ChungChiId).lean()
+    UngTuyenVien.findById(req.params.ungtuyenvienId).lean()
         .then(() => {
             return ChungChi.findByIdAndUpdate(req.params.ChungChiId, {
                 tenchungchi,

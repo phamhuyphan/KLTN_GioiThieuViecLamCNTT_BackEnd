@@ -3,7 +3,7 @@ const DanhHieuVaGiaiThuong = require("../../models/UngTuyenVienModel/danhHieuVaG
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
-    await UngTuyenVien.find({ DanhHieuVaGiaiThuong: req.params.DanhHieuVaGiaiThuongId })
+    await DanhHieuVaGiaiThuong.find({ungtuyenvien: req.params.ungtuyenvienId})
             .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
@@ -14,7 +14,7 @@ const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
 
 const createDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
 
-    let createDanhHieuVaGiaiThuong = await DanhHieuVaGiaiThuong.create({
+    DanhHieuVaGiaiThuong.create({
         tenGiaiThuong: req.body.chucvu,
         tochuc: req.body.tencty,
         ngaynhan: req.body.tungay,
@@ -22,13 +22,12 @@ const createDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
         ungtuyenvien:req.ungtuyenvien.id,
         taikhoan:req.user.id
     })
-
-    if(createDanhHieuVaGiaiThuong){
-        res.json(createDanhHieuVaGiaiThuong);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
+    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+        let result = data
+        res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
 
 })
 
@@ -47,7 +46,7 @@ const updateDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
     const   tochuc= req.body.tochuc;
     const   ngaynhan= req.body.ngaynhan;
     const   motachitiet= req.body.motachitiet;
-    UngTuyenVien.findById(req.params.DanhHieuVaGiaiThuongId).lean()
+    UngTuyenVien.findById(req.params.ungtuyenvienId).lean()
         .then(() => {
             return DanhHieuVaGiaiThuong.findByIdAndUpdate(req.params.DanhHieuVaGiaiThuongId, {
                 tenGiaiThuong,
