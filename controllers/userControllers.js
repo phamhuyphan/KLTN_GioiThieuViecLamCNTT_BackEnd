@@ -151,10 +151,10 @@ const getUserByEmail = asyncHandler(async (req, res) => {
   }
 });
 
+//  api đổi mật khẩu sao khi click vào link trong email
 const reserPassword = asyncHandler(async (req, res) => {
   const id = req.params.userId;
   const { password } = req.body
-  console.log(password);
   const salt = await bcrypt.genSalt(10);
   const password2 = await bcrypt.hash(password, salt);
 
@@ -179,6 +179,29 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
+// api delete user by id
+const deleteUserById = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+    let deleteUser = await User.deleteOne({_id:userId})
+    if(deleteUser){
+        res.send("delete "+userId)
+    }else{
+        res.status(404);
+        throw new Error(`Delete not sure`);
+    }
+});
+
+// api khóa user
+const blockUserById = asyncHandler(async (req, res) => {
+  const id = req.params.userId;
+  await User.updateOne({ _id: id }, { verify:false }
+  ).then((data) => {
+    res.json(data);
+  }).catch((err) => {
+    res.send(err);
+  });
+
+})
 
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -308,6 +331,8 @@ const update = asyncHandler(async (req, res) => {
   }
 });
 
+
+// api nhập vào email gửi về link đến trang forgot password
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   try {
@@ -349,6 +374,12 @@ module.exports = {
   registerUser,
   registerUser1,
   sendEmail,
-  authUser, getOTPById, getUserById, update,
-  forgotPassword, reserPassword
+  authUser,
+  getOTPById,
+  getUserById,
+  update,
+  forgotPassword,
+  reserPassword,
+  deleteUserById,
+  blockUserById
 };
