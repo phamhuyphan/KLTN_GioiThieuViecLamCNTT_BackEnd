@@ -1,11 +1,16 @@
 const asyncHandler = require("express-async-handler")
 const UngTuyenVien = require("../models/ungTuyenVienModel")
 
+// Get All Ung Tuyen vien By iD tin tuyen dung
 const accessUngTuyenVien = asyncHandler(async (req, res) => {
-    let post = await UngTuyenVien.find()
-            .populate("taikhoan", "-password");
-    res.json(post)
-})
+    await  UngTuyenVien.find({ nhatuyendung: req.params.nhatuyendungId })
+           .populate('nhatuyendung').then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+});
 
 const createUngTuyenVien = asyncHandler(async (req, res) => {
 

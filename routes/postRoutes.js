@@ -3,15 +3,22 @@ const {
     accessTinTuyenDung,
     createTinTuyenDung,
     deleteTinTuyenDung,
-    updateTinTuyenDung
-  } = require("../controllers/tinTuyenDungControllers");
+    updateTinTuyenDung,
+    getTinTuyenDungById,
+    getAllTinTuyenDungByIdNhaTuyenDung,
+    duyetTinTuyenDung
+  } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   
-router.route("/").get(accessTinTuyenDung);
+router.route("/").get(protect,accessTinTuyenDung);
 router.route("/").post(protect,createTinTuyenDung);
+router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
+router.route("/:id").put(protect,getTinTuyenDungById);
+router.route("/:nhatuyendungId").delete(protect,getAllTinTuyenDungByIdNhaTuyenDung);
 
 module.exports = router;
+

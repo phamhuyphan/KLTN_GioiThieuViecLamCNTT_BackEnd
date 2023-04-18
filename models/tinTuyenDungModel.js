@@ -5,11 +5,29 @@ const postSchema= mongoose.Schema(
 
     vitri:{type: String, trim: true},
 
-    soluongungtuyen:{type: Number, trim: true},
+    soLuongTuyen:{type: Number, trim: true},
 
-    soluongdatuyen:{type:Number, trim: true},
-
-    sonamkinhnghiem:{type: Number, trim: true},
+    kinhNghiem:{type: String, trim: true},
+    
+    diaChi:{type: String, trim: true},
+    
+    nganhNghe:{type: String, trim: true},
+    
+    hinhThucLamViec:{type: String, trim: true},
+    
+    moTaCongViec:{type: String, trim: true},
+    
+    ngayDungTuyen:{type: Date, trim: true},
+    
+    moTaYeuCau:{type: String, trim: true},
+    
+    quyenLoiUngVien:{type: String, trim: true},
+    
+    tenNguoiLienHe:{type: String, trim: true},
+    
+    soDienThoaiLienHe:{type: String, trim: true},
+    
+    emailLienHe:{type: String, trim: true},
 
     gioitinh:{type: String, trim: true},
 
@@ -18,22 +36,12 @@ const postSchema= mongoose.Schema(
     mucluong:{type: String, trim: true},
 
     bangcap:{type: String, trim: true},
-    
-    mota:{type: String, trim: true},
 
     tutuoi:{type: Number, trim: true},
 
     dentuoi:{type: Number, trim: true},
 
-    trangThai :{type:String, trim: true},
-
-    phucloi:{type: String, trim: true},
-
-    ngaycapnhat:{type: Date, trim: true},
-
-    sumenh:{type: String, trim: true},
-    
-    taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    trangthai:{type: String, trim: true},
 
     nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
   },
