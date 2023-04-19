@@ -4,7 +4,7 @@ const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessChungChi = asyncHandler(async (req, res) => {
     await ChungChi.find({ ungtuyenvien: req.params.ungtuyenvienId })
-            .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+            .populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -16,14 +16,13 @@ const createChungChi = asyncHandler(async (req, res) => {
 
      ChungChi.create({
         tenchungchi: req.body.tenchungchi,
-        loaichungchi: req.body.loaichungchi,
-        nhacungcaochungchi: req.body.nhacungcaochungchi,
+        tochuc: req.body.tochuc,
+        motachitiet: req.body.motachitiet,
         ngaycap: req.body.ngaycap,
         ngayhethan: req.body.ngayhethan,
-        ungtuyenvien:req.ungtuyenvien.id,
-        taikhoan:req.user.id
+        ungtuyenvien:req.ungtuyenvien.id
     })
-    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+    .populate('ungtuyenvien').then(data => {
         let result = data
         res.json(result)
     }).catch(error => {
@@ -44,16 +43,16 @@ const deleteChungChi = asyncHandler(async (req, res) => {
 const updateChungChi = asyncHandler(async (req, res) => {
     const { ChungChiId } = req.params.ChungChiId;
     const   tenchungchi = req.body.tenchungchi;
-    const   loaichungchi= req.body.tenchunloaichungchigchi;
-    const   nhacungcaochungchi= req.body.nhacungcaochungchi;
+    const   tochuc= req.body.tochuc;
+    const   motachitiet= req.body.motachitiet;
     const   ngaycap= req.body.ngaycap;
     const   ngayhethan= req.body.ngayhethan;
     UngTuyenVien.findById(req.params.ungtuyenvienId).lean()
         .then(() => {
             return ChungChi.findByIdAndUpdate(req.params.ChungChiId, {
                 tenchungchi,
-                loaichungchi,
-                nhacungcaochungchi,
+                tochuc,
+                motachitiet,
                 ngaycap,
                 ngayhethan
             }, { new: true,

@@ -4,7 +4,7 @@ const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessKinhNghiemLamViec = asyncHandler(async (req, res) => {
     await KinhNghiemLamViec.find({ ungtuyenvien: req.params.ungtuyenvienId })
-            .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+            .populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -20,11 +20,9 @@ const createKinhNghiemLamViec = asyncHandler(async (req, res) => {
         tungay: req.body.tungay,
         denngay: req.body.denngay,
         motachitiet: req.body.motachitiet,
-        vanconhoc: req.body.vanconhoc,
         ungtuyenvien:req.ungtuyenvien.id,
-        taikhoan:req.user.id
     })
-    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+    .populate('ungtuyenvien').then(data => {
         let result = data
         res.json(result)
     }).catch(error => {
@@ -44,22 +42,26 @@ const deleteKinhNghiemLamViec = asyncHandler(async (req, res) => {
 
 const updateKinhNghiemLamViec = asyncHandler(async (req, res) => {
     const { knLamViecId } = req.params.knLamViecId;
-    const { hovtenGiaiThuongaten } = req.params.hovtenGiaiThuongaten;
-    const { tochuc } = req.params.tochuc;
-    const { ngaynhan } = req.params.ngaynhan;
+    const { chucvu } = req.params.chucvu;
+    const { tencty } = req.params.tencty;
+    const { tungay } = req.params.tungay;
+    const { denngay } = req.params.denngay;
     const { motachitiet } = req.params.motachitiet;
     UngTuyenVien.findById(req.params.ungTuyenVienId).lean()
         .then(() => {
             return KinhNghiemLamViec.findByIdAndUpdate(req.params.knLamViecId, {
-                hovtenGiaiThuongaten,
-                tochuc,
-                ngaynhan,
-                motachitiet,
+                chucvu,
+                tencty,
+                denngay,
+                tungay,
+                motachitiet
 
             }, { new1: true,
                 new2: true,
                 new3: true,
-                new4: true,}).lean();
+                new4: true,
+                new5: true,
+            }).lean();
         }).then((updateKinhNghiemLamViec) => {
             res.json(updateKinhNghiemLamViec);
         }).catch(error => {
