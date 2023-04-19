@@ -9,10 +9,10 @@ const {
 
   const router = express.Router();
   
-router.route("/").get(protect,accessHocVan);
+router.route("/:ungtuyenvienId").get(protect,accessHocVan);
 router.route("/").post(protect,createHocVan);
-router.route("/update").put(protect,deleteHocVan);
-router.route("/").delete(protect,updateHocVan);
+router.route("/:ungtuyenvienId/update/hocVanId").put(protect,updateHocVan);
+router.route("/").delete(protect,deleteHocVan);
 
 module.exports = router;
 

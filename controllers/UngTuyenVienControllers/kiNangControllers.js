@@ -4,7 +4,7 @@ const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessKiNang = asyncHandler(async (req, res) => {
     await KiNang.find({  ungtuyenvien: req.params.ungtuyenvienId })
-            .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+    .populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -14,12 +14,11 @@ const accessKiNang = asyncHandler(async (req, res) => {
 
 const createKiNang = asyncHandler(async (req, res) => {
 
-    let createKiNang = await KiNang.create({
+     await KiNang.create({
         tenkinang: req.body.tenkinang,
         ungtuyenvien:req.ungtuyenvien.id,
-        taikhoan:req.user.id
     })
-    .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
+    populate('ungtuyenvien').then(data => {
         let result = data
         res.json(result)
     }).catch(error => {

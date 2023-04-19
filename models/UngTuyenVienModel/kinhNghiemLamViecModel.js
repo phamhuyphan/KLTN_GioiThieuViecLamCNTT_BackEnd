@@ -10,12 +10,9 @@ const kinhNghiemLamViecSchema= mongoose.Schema(
     denngay:{type:Date, trim: true},
 
     motachitiet:{type: String, trim: true},
-
-    vanconhoc:{type: Boolean, trim: true},
     
     ungtuyenvien: { type: mongoose.Schema.Types.ObjectId, ref: "UngTuyenVien" }
     
-    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" }
   },
   { timestamps: true }
 );

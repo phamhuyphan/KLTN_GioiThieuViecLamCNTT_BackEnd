@@ -9,10 +9,10 @@ const {
 
   const router = express.Router();
   
-router.route("/").get(protect,accessDanhHieuVaGiaiThuong);
+router.route("/:ungtuyenvienId").get(protect,accessDanhHieuVaGiaiThuong);
 router.route("/").post(protect,createDanhHieuVaGiaiThuong);
-router.route("/update").put(protect,deleteDanhHieuVaGiaiThuong);
-router.route("/").delete(protect,updateDanhHieuVaGiaiThuong);
+router.route("/:ungtuyenvienId/update/DanhHieuVaGiaiThuongId").put(protect,updateDanhHieuVaGiaiThuong);
+router.route("/").delete(protect,deleteDanhHieuVaGiaiThuong);
 
 module.exports = router;
 

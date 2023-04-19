@@ -25,7 +25,7 @@ const getTinTuyenDungById = asyncHandler(async (req, res) => {
            })
 });
 
-//  Get All Tin Tuyển Dụng
+//  Get All Tin Tuyển Dụng by ID nha tuyen dung 
 const getAllTinTuyenDungByIdNhaTuyenDung = asyncHandler(async (req, res) => {
     await  Post.find({ nhatuyendung: req.params.nhatuyendungId })
            .populate('nhatuyendung').then(data => {

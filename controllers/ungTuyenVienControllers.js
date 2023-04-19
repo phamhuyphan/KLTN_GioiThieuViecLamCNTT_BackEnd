@@ -1,10 +1,22 @@
 const asyncHandler = require("express-async-handler")
 const UngTuyenVien = require("../models/ungTuyenVienModel")
 
-// Get All Ung Tuyen vien By iD tin tuyen dung
+// Get All ung tuyen vien 
 const accessUngTuyenVien = asyncHandler(async (req, res) => {
-    await  UngTuyenVien.find({ nhatuyendung: req.params.nhatuyendungId })
-           .populate('nhatuyendung').then(data => {
+    await  UngTuyenVien.find()
+           .populate('taikhoan','-password').then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+});
+
+//  Get  ung tuyen vien by ID
+const getUngTuyenVienById = asyncHandler(async (req, res) => {
+    const id = req.body;
+    await  UngTuyenVien.findOne(id)
+    .populate('taikhoan','-password').then(data => {
                let result = data
                res.json(result)
            }).catch(error => {
@@ -21,13 +33,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
         gioithieubanthan:req.body.gioithieubanthan,
         ngaysinh:req.body.ngaysinh,
         diachi: req.body.diachi,
-        sonamlamviec:req.body.sonamlamviec,
-        gioitinh:req.body.gioitinh,
         email:req.body.email,
-        chucvu:req.body.chucvu,
-        cv:req.body.cv,
-        vitriungtuyen:req.body.vitriungtuyen,
-        muctieulamviec:req.body.muctieulamviec,
         taikhoan:req.user.id
     })
 
@@ -61,13 +67,7 @@ const updateUngTuyenVien = asyncHandler(async (req, res) => {
         gioithieubanthan:req.body.gioithieubanthan,
         ngaysinh:req.body.ngaysinh,
         diachi: req.body.diachi,
-        sonamlamviec:req.body.sonamlamviec,
-        gioitinh:req.body.gioitinh,
         email:req.body.email,
-        chucvu:req.body.chucvu,
-        cv:req.body.cv,
-        vitriungtuyen:req.body.vitriungtuyen,
-        muctieulamviec:req.body.muctieulamviec,
     })
 
     if(update){
@@ -82,5 +82,6 @@ module.exports = {
     accessUngTuyenVien,
     createUngTuyenVien,
     deleteUngTuyenVien,
-    updateUngTuyenVien
+    updateUngTuyenVien,
+    getUngTuyenVienById
 }

@@ -17,7 +17,7 @@ router.route("/").post(protect,createTinTuyenDung);
 router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
-router.route("/:id").put(protect,getTinTuyenDungById);
+router.route("/:id").get(protect,getTinTuyenDungById);
 router.route("/:nhatuyendungId").delete(protect,getAllTinTuyenDungByIdNhaTuyenDung);
 
 module.exports = router;
