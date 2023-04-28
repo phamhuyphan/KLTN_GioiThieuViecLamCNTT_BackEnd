@@ -13,7 +13,19 @@ const ungtuyenvienSchema= mongoose.Schema(
 
     diachi:{type: String, trim: true},
 
+    sonamlamviec:{type: Number, trim: true},
+
+    gioitinh:{type: String, trim: true},
+
     email:{type: String, trim: true},
+    
+    chucvu:{type: String, trim: true},
+
+    cv:{type: String, trim: true},
+    
+    vitriungtuyen:{type: String, trim: true},
+
+    muctieulamviec:{type: String, trim: true},
     
     taikhoan: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     

@@ -5,14 +5,14 @@ const {
     deleteHocVan,
     updateHocVan
   } = require("../../controllers/UngTuyenVienControllers/hocVanControllers")
-  const { protect } = require("../../middlewares/authMiddleware")
+  const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   
-router.route("/:ungtuyenvienId").get(protect,accessHocVan);
+router.route("/").get(protect,accessHocVan);
 router.route("/").post(protect,createHocVan);
-router.route("/:ungtuyenvienId/update/hocVanId").put(protect,updateHocVan);
-router.route("/").delete(protect,deleteHocVan);
+router.route("/update").put(protect,deleteHocVan);
+router.route("/").delete(protect,updateHocVan);
 
 module.exports = router;
 

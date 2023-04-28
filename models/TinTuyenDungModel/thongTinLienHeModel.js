@@ -11,7 +11,11 @@ const thongTinLienHeSchema= mongoose.Schema(
 
     donungtuyen: { type: mongoose.Schema.Types.ObjectId, ref: "DonUngTuyen" },
     
-    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" }
+    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" },
+
+    nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
+    
+    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     
   },
   { timestamps: true }

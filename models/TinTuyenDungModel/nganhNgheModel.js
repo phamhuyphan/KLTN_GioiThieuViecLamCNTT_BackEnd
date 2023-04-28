@@ -3,7 +3,11 @@ const nganhNgheSchema= mongoose.Schema(
   {
     tenganhnghe :{type: String,trim :true},
 
-    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" }
+    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" },
+
+    nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
+    
+    ,taikhoan : { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     
   },
   { timestamps: true }

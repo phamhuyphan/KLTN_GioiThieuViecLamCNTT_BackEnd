@@ -1,17 +1,14 @@
 const express = require("express");
 const {
-  getUserByEmail,
-  allUsers,
   registerUser,
-  sendEmail,
   authUser,
-  getOTPById,
-  getUserById,
-  update,
-  forgotPassword,
-  reserPassword,
-  deleteUserById,
-  blockUserById
+  allUsers,
+  addFriend,
+  generateQRCode,
+  getUserByEmail,reserPassword,
+  sendEmail,
+  getOTPById, getUserById,
+  update,forgotPassword
 } = require("../controllers/userControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -19,8 +16,6 @@ const router = express.Router();
 
 router.route("/").get(protect,allUsers);
 router.route("/").post(registerUser);
-router.route("/").put(protect,blockUserById);
-router.route("/").delete(protect,deleteUserById);
 router.route("/verify").post(sendEmail);
 router.route("/verify/:id").post(getOTPById);
 router.post("/login", authUser);

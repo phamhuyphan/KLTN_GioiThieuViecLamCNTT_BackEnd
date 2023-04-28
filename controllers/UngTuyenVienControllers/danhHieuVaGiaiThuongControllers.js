@@ -3,8 +3,8 @@ const DanhHieuVaGiaiThuong = require("../../models/UngTuyenVienModel/danhHieuVaG
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
-    await DanhHieuVaGiaiThuong.find({ungtuyenvien: req.params.ungtuyenvienId})
-            .populate('ungtuyenvien').then(data => {
+    await UngTuyenVien.find({ DanhHieuVaGiaiThuong: req.params.DanhHieuVaGiaiThuongId })
+            .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -14,20 +14,21 @@ const accessDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
 
 const createDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
 
-    DanhHieuVaGiaiThuong.create({
+    let createDanhHieuVaGiaiThuong = await DanhHieuVaGiaiThuong.create({
         tenGiaiThuong: req.body.chucvu,
         tochuc: req.body.tencty,
-        thang: req.body.thang,
-        nam: req.body.nam,
+        ngaynhan: req.body.tungay,
         motachitiet: req.body.motachitiet,
-        ungtuyenvien:req.ungtuyenvien.id
+        ungtuyenvien:req.ungtuyenvien.id,
+        taikhoan:req.user.id
     })
-    .populate('ungtuyenvien').then(data => {
-        let result = data
-        res.json(result)
-    }).catch(error => {
-        res.status(400).send(error.message || error);
-    })
+
+    if(createDanhHieuVaGiaiThuong){
+        res.json(createDanhHieuVaGiaiThuong);
+    }else{
+        res.status(404);
+        throw new Error(`Create not sure`);
+    }
 
 })
 
@@ -44,22 +45,19 @@ const updateDanhHieuVaGiaiThuong = asyncHandler(async (req, res) => {
     const { DanhHieuVaGiaiThuongId } = req.params.DanhHieuVaGiaiThuongId;
     const   tenGiaiThuong = req.body.tenGiaiThuong;
     const   tochuc= req.body.tochuc;
-    const   thang= req.body.thang;
-    const   nam = req.body.nam;
+    const   ngaynhan= req.body.ngaynhan;
     const   motachitiet= req.body.motachitiet;
-    UngTuyenVien.findById(req.params.ungtuyenvienId).lean()
+    UngTuyenVien.findById(req.params.DanhHieuVaGiaiThuongId).lean()
         .then(() => {
             return DanhHieuVaGiaiThuong.findByIdAndUpdate(req.params.DanhHieuVaGiaiThuongId, {
                 tenGiaiThuong,
                 tochuc,
-                thang,
-                nam,
+                ngaynhan,
                 motachitiet,
             }, { new: true,
                 new1: true, 
                 new2: true,
-                new3: true,
-                new4: true,}).lean();
+                new3: true,}).lean();
         }).then((updateDanhHieuVaGiaiThuong) => {
             res.json(updateDanhHieuVaGiaiThuong);
         }).catch(error => {

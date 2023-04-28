@@ -2,10 +2,9 @@ const asyncHandler = require("express-async-handler")
 const Post = require("../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
 
-//  Get All Tin Tuyển Dụng
 const accessTinTuyenDung = asyncHandler(async (req, res) => {
      await  Post.find()
-            .populate('nhatuyendung').then(data => {
+            .populate("nguoidang", "-password").populate('nhatuyendung').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -13,75 +12,31 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
             })
 });
 
-//  Get  Tin Tuyển Dụng by ID
-const getTinTuyenDungById = asyncHandler(async (req, res) => {
-    const id = req.body;
-    await  Post.findOne(id)
-           .populate('nhatuyendung').then(data => {
-               let result = data
-               res.json(result)
-           }).catch(error => {
-               res.status(400).send(error.message || error);
-           })
-});
-
-//  Get All Tin Tuyển Dụng by ID nha tuyen dung 
-const getAllTinTuyenDungByIdNhaTuyenDung = asyncHandler(async (req, res) => {
-    await  Post.find({ nhatuyendung: req.params.nhatuyendungId })
-           .populate('nhatuyendung').then(data => {
-               let result = data
-               res.json(result)
-           }).catch(error => {
-               res.status(400).send(error.message || error);
-           })
-});
-
 const createTinTuyenDung = asyncHandler(async (req, res) => {
 
     let createPost = await Post.create({
-    tieude :req.body.tieude,
-
-    vitri:req.body.vitri,
-
-    soLuongTuyen:req.body.soLuongTuyen,
-
-    kinhNghiem:req.body.kinhNghiem,
-    
-    diaChi:req.body.diaChi,
-    
-    nganhNghe:req.body.nganhNghe,
-    
-    hinhThucLamViec:req.body.hinhThucLamViec,
-    
-    moTaCongViec:req.body.moTaCongViec,
-    
-    ngayDungTuyen:req.body.ngayDungTuyen,
-    
-    moTaYeuCau:req.body.moTaCongViec,
-    
-    quyenLoiUngVien:req.body.quyenLoiUngVien,
-    
-    tenNguoiLienHe:req.body.tenNguoiLienHe,
-    
-    soDienThoaiLienHe:req.body.soDienThoaiLienHe,
-    
-    emailLienHe:req.body.emailLienHe,
-
-    gioitinh:req.body.gioitinh,
-
-    ngayhethan:req.body.ngayhethan,
-
-    mucluong:req.body.mucluong,
-
-    bangcap:req.body.bangcap,
-
-    tutuoi:req.body.tutuoi,
-
-    dentuoi:req.body.dentuoi,
-
-    trangthai:req.body.trangthai,
-
-    nhatuyendung:req.nhatuyendung.id
+        tieude: req.body.tieude,
+        diachi: req.body.diachi,
+        nganhnghe: req.body.nganhnghe,
+        vitri:req.body.vitri,
+        soluongtuyen: req.body.soluongtuyen,
+        hinhthuclamviec: req.body.hinhthuclamviec,
+        mucluong:req.body.mucluong,
+        motacongviec: req.body.motacongviec,
+        sonamkinhnghiem:req.body.sonamkinhnghiem,
+        bangcap:req.body.bangcap,
+        gioitinh: req.body.gioitinh,
+        ngayhethan:req.body.ngayhethan,
+        tutuoi:req.body.tutuoi,
+        dentuoi:req.body.dentuoi,
+        motayeucau:req.body.motayeucau,
+        quyenloiungvien:req.body.quyenloiungvien,
+        tenlienhe: req.body.tenlienhe,
+        sodienthoailienhe: req.body.sodienthoai,
+        emaillienhe: req.body.emaillienhe,
+        ngaycapnhat:req.body.ngaycapnhat,
+        trangthai:req.body.trangthai,
+        nhatuyendung:req.body.nhatuyendung,
     })
 
     if(createPost){
@@ -105,66 +60,25 @@ const deleteTinTuyenDung = asyncHandler(async (req, res) => {
 
 })
 
-// api duyet tin tuyen dung
-const duyetTinTuyenDung = asyncHandler(async (req, res) => {
-    const { postId } = req.body;
-    let update =  Post.findByIdAndUpdate(postId,{
-        trangthai:req.body.trangthai,
-    })
-
-    if(update){
-        res.send(update);
-    }else{
-        res.status(404);
-        throw new Error(`Update not sure`);
-    }
-
-})
-
 const updateTinTuyenDung = asyncHandler(async (req, res) => {
     const { postId } = req.body;
-    let update =  Post.findByIdAndUpdate(postId,{
-        tieude :req.body.tieude,
-
+    let update = await Post.findByIdAndUpdate(postId,{
+        tieude: req.body.tieude,
         vitri:req.body.vitri,
-
-        soLuongTuyen:req.body.soLuongTuyen,
-    
-        kinhNghiem:req.body.kinhNghiem,
-        
-        diaChi:req.body.diaChi,
-        
-        nganhNghe:req.body.nganhNghe,
-        
-        hinhThucLamViec:req.body.hinhThucLamViec,
-        
-        moTaCongViec:req.body.moTaCongViec,
-        
-        ngayDungTuyen:req.body.ngayDungTuyen,
-        
-        moTaYeuCau:req.body.moTaCongViec,
-        
-        quyenLoiUngVien:req.body.quyenLoiUngVien,
-        
-        tenNguoiLienHe:req.body.tenNguoiLienHe,
-        
-        soDienThoaiLienHe:req.body.soDienThoaiLienHe,
-        
-        emailLienHe:req.body.emailLienHe,
-    
-        gioitinh:req.body.gioitinh,
-    
+        soluongungtuyen: req.body.soluongungtuyen,
+        soluongdatuyen:req.body.soluongdatuyen,
+        sonamkinhnghiem:req.body.sonamkinhnghiem,
+        gioitinh: req.body.gioitinh,
         ngayhethan:req.body.ngayhethan,
-    
         mucluong:req.body.mucluong,
-    
         bangcap:req.body.bangcap,
-    
+        mota:req.body.mota,
         tutuoi:req.body.tutuoi,
-    
         dentuoi:req.body.dentuoi,
-
         trangthai:req.body.trangthai,
+        phucloi:req.body.phucloi,
+        ngaycapnhat:req.body.ngaycapnhat,
+        sumenh:req.body.sumenh,
     })
 
     if(update){
@@ -179,8 +93,5 @@ module.exports = {
     accessTinTuyenDung,
     createTinTuyenDung,
     deleteTinTuyenDung,
-    updateTinTuyenDung,
-    getTinTuyenDungById,
-    getAllTinTuyenDungByIdNhaTuyenDung,
-    duyetTinTuyenDung
+    updateTinTuyenDung
 }

@@ -5,14 +5,14 @@ const {
     deleteChungChi,
     updateChungChi
   } = require("../../controllers/UngTuyenVienControllers/chungChiControllers")
-  const { protect } = require("../../middlewares/authMiddleware")
+  const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   
-router.route("/:ungtuyenvienId").get(protect,accessChungChi);
+router.route("/").get(protect,accessChungChi);
 router.route("/").post(protect,createChungChi);
-router.route("/:ungtuyenvienId/update/ChungChiId").put(protect,updateChungChi);
-router.route("/").delete(protect,deleteChungChi);
+router.route("/update").put(protect,deleteChungChi);
+router.route("/").delete(protect,updateChungChi);
 
 module.exports = router;
 

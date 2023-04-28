@@ -3,8 +3,8 @@ const KinhNghiemLamViec = require("../../models/UngTuyenVienModel/kinhNghiemLamV
 const UngTuyenVien = require("../../models/ungTuyenVienModel")
 
 const accessKinhNghiemLamViec = asyncHandler(async (req, res) => {
-    await KinhNghiemLamViec.find({ ungtuyenvien: req.params.ungtuyenvienId })
-            .populate('ungtuyenvien').then(data => {
+    await UngTuyenVien.find({ KinhNghiemLamViec: req.params.kinhNghiemLamViecId })
+            .populate("taikhoan", "-password").populate('ungtuyenvien').then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -20,14 +20,17 @@ const createKinhNghiemLamViec = asyncHandler(async (req, res) => {
         tungay: req.body.tungay,
         denngay: req.body.denngay,
         motachitiet: req.body.motachitiet,
+        vanconhoc: req.body.vanconhoc,
         ungtuyenvien:req.ungtuyenvien.id,
+        taikhoan:req.user.id
     })
-    .populate('ungtuyenvien').then(data => {
-        let result = data
-        res.json(result)
-    }).catch(error => {
-        res.status(400).send(error.message || error);
-    })
+
+    if(createKinhNghiemLamViec){
+        res.json(createKinhNghiemLamViec);
+    }else{
+        res.status(404);
+        throw new Error(`Create not sure`);
+    }
 
 })
 
@@ -42,26 +45,22 @@ const deleteKinhNghiemLamViec = asyncHandler(async (req, res) => {
 
 const updateKinhNghiemLamViec = asyncHandler(async (req, res) => {
     const { knLamViecId } = req.params.knLamViecId;
-    const { chucvu } = req.params.chucvu;
-    const { tencty } = req.params.tencty;
-    const { tungay } = req.params.tungay;
-    const { denngay } = req.params.denngay;
+    const { hovtenGiaiThuongaten } = req.params.hovtenGiaiThuongaten;
+    const { tochuc } = req.params.tochuc;
+    const { ngaynhan } = req.params.ngaynhan;
     const { motachitiet } = req.params.motachitiet;
     UngTuyenVien.findById(req.params.ungTuyenVienId).lean()
         .then(() => {
             return KinhNghiemLamViec.findByIdAndUpdate(req.params.knLamViecId, {
-                chucvu,
-                tencty,
-                denngay,
-                tungay,
-                motachitiet
+                hovtenGiaiThuongaten,
+                tochuc,
+                ngaynhan,
+                motachitiet,
 
             }, { new1: true,
                 new2: true,
                 new3: true,
-                new4: true,
-                new5: true,
-            }).lean();
+                new4: true,}).lean();
         }).then((updateKinhNghiemLamViec) => {
             res.json(updateKinhNghiemLamViec);
         }).catch(error => {

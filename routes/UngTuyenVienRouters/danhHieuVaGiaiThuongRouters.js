@@ -5,14 +5,14 @@ const {
     deleteDanhHieuVaGiaiThuong,
     updateDanhHieuVaGiaiThuong
   } = require("../../controllers/UngTuyenVienControllers/danhHieuVaGiaiThuongControllers")
-  const { protect } = require("../../middlewares/authMiddleware")
+  const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   
-router.route("/:ungtuyenvienId").get(protect,accessDanhHieuVaGiaiThuong);
+router.route("/").get(protect,accessDanhHieuVaGiaiThuong);
 router.route("/").post(protect,createDanhHieuVaGiaiThuong);
-router.route("/:ungtuyenvienId/update/DanhHieuVaGiaiThuongId").put(protect,updateDanhHieuVaGiaiThuong);
-router.route("/").delete(protect,deleteDanhHieuVaGiaiThuong);
+router.route("/update").put(protect,deleteDanhHieuVaGiaiThuong);
+router.route("/").delete(protect,updateDanhHieuVaGiaiThuong);
 
 module.exports = router;
 
