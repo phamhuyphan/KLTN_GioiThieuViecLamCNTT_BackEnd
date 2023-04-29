@@ -5,7 +5,9 @@ const NhaTuyenDung = require("../models/nhaTuyenDungModel")
 //  Get All Tin Tuyển Dụng
 const accessTinTuyenDung = asyncHandler(async (req, res) => {
      await  Post.find()
-            .populate('nhatuyendung').then(data => {
+            .populate('ngonngu')
+            .populate('nhatuyendung')
+            .then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -17,6 +19,7 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
 const getTinTuyenDungById = asyncHandler(async (req, res) => {
     const id = req.body;
     await  Post.findOne(id)
+            .populate('ngonngu')
            .populate('nhatuyendung').then(data => {
                let result = data
                res.json(result)
@@ -28,7 +31,8 @@ const getTinTuyenDungById = asyncHandler(async (req, res) => {
 //  Get All Tin Tuyển Dụng by ID nha tuyen dung 
 const getAllTinTuyenDungByIdNhaTuyenDung = asyncHandler(async (req, res) => {
     await  Post.find({ nhatuyendung: req.params.nhatuyendungId })
-           .populate('nhatuyendung').then(data => {
+           .populate('nhatuyendung')
+           .populate('ngonngu').then(data => {
                let result = data
                res.json(result)
            }).catch(error => {
@@ -81,7 +85,9 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
 
     trangthai:req.body.trangthai,
 
-    nhatuyendung:req.nhatuyendung.id
+    ngonngu:req.body.ngonnguId,
+
+    nhatuyendung:req.body.nhatuyendungId
     })
 
     if(createPost){
@@ -165,6 +171,9 @@ const updateTinTuyenDung = asyncHandler(async (req, res) => {
         dentuoi:req.body.dentuoi,
 
         trangthai:req.body.trangthai,
+
+        // ngonngu:req.ngonngu.id,
+        
     })
 
     if(update){

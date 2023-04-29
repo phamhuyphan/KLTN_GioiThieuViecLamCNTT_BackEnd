@@ -43,6 +43,8 @@ const postSchema= mongoose.Schema(
 
     trangthai:{type: String, trim: true},
 
+    ngonngu: { type: mongoose.Schema.Types.ObjectId, ref: "NgonNgu" },
+
     nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
   },
   { timestamps: true }

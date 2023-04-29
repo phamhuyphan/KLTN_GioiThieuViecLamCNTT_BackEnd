@@ -5,7 +5,7 @@ const {
     deleteNgonNgu,
     updateNgonNgu
   } = require("../controllers/ngonNguControllers")
-  const { protect } = require("../../middlewares/authMiddleware")
+  const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   

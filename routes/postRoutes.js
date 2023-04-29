@@ -12,7 +12,7 @@ const {
 
   const router = express.Router();
   
-router.route("/").get(protect,accessTinTuyenDung);
+router.route("/").get(accessTinTuyenDung);
 router.route("/").post(protect,createTinTuyenDung);
 router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);

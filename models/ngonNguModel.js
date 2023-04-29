@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const ngonNguSchema= mongoose.Schema(
   {
-    ngonngu :{type: String,trim :true},
-
-    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" }
+    ngonngu :{type: String,trim :true}
     
   },
   { timestamps: true }
