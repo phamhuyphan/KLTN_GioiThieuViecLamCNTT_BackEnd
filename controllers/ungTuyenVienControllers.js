@@ -34,7 +34,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
         ngaysinh:req.body.ngaysinh,
         diachi: req.body.diachi,
         email:req.body.email,
-        taikhoan:req.user.id
+        taikhoan:req.user._id
     })
 
     if(createUngTuyenVien){

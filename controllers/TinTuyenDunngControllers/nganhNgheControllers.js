@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler")
 const NganhNghe = require("../../models/TinTuyenDungModel/nganhNgheModel")
 const TinTuyenDung = require("../../models/tinTuyenDungModel")
-const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
+
+//  Get all nganh nghe
 const accessNganhNghe = asyncHandler(async (req, res) => {
-    await NganhNghe.find({ tintuyendung: req.params.tintuyendungId })
+    await NganhNghe.find()
             .populate('tintuyendung').then(data => {
                 let result = data
                 res.json(result)
@@ -14,10 +15,12 @@ const accessNganhNghe = asyncHandler(async (req, res) => {
 })
 
 const createNganhNghe = asyncHandler(async (req, res) => {
-    Comment.create({
-        tennganhnghe: req.user.tennganhnghe,
-        tintuyendung: req.body.tintuyendungId
-    }).populate('tintuyendung').then(data => {
+   const nganhNghe = await NganhNghe.create({
+        tennganhnghe: req.body.tennganhnghe,
+        tintuyendung: req.body.tintuyendung
+    })
+    const a = await nganhNghe.populate('tintuyendung')
+    .then(data => {
         let result = data
         res.json(result)
     }).catch(error => {

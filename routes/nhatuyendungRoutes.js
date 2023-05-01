@@ -3,7 +3,8 @@ const {
     accessNhaTuyenDung,
     createNhaTuyenDung,
     deleteNhaTuyenDung,
-    updateNhaTuyenDung
+    updateNhaTuyenDung,
+    getNhaTuyenDungById
   } = require("../controllers/nhaTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
@@ -13,6 +14,8 @@ router.route("/").get(accessNhaTuyenDung);
 router.route("/").post(protect,createNhaTuyenDung);
 router.route("/update").put(protect,updateNhaTuyenDung);
 router.route("/").delete(protect,deleteNhaTuyenDung);
+
+router.route("/:id").get(protect,getNhaTuyenDungById);
 
 module.exports = router;
 

@@ -12,6 +12,7 @@ const postRoutes = require("./routes/postRoutes");
 const nhaTuyenDungRoutes = require("./routes/nhatuyendungRoutes");
 const ungtuyenvienRoutes = require("./routes/ungTuyenVienRouters");
 const ngonguRoutes = require("./routes/ngonNguRouters");
+const nganhngheoutes = require("./routes/TinTuyenDungRouters/nganhNgheRouters");
 
 app.use(cors())
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/api/tintuyendung", postRoutes);
 app.use("/api/nhatuyendung", nhaTuyenDungRoutes);
 app.use("/api/ungtuyenvien", ungtuyenvienRoutes);
 app.use("/api/ngonngu",ngonguRoutes);
+app.use("/api/nganhnghe",nganhngheoutes);
 
 
 const PORT = process.env.PORT;
