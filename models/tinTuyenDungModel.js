@@ -2,22 +2,24 @@ const mongoose = require("mongoose");
 const postSchema= mongoose.Schema(
   {
     tieude :{type: String,trim :true},
-
-    vitri:{type: String, trim: true},
-
-    soLuongTuyen:{type: Number, trim: true},
-
-    kinhNghiem:{type: String, trim: true},
     
     diaChi:{type: String, trim: true},
     
     nganhNghe:{type: String, trim: true},
+
+    vitri:{type: String, trim: true},
+
+    soLuongTuyen:{type: Number, trim: true},
     
     hinhThucLamViec:{type: String, trim: true},
+
+    mucluong:{type: String, trim: true},
     
     moTaCongViec:{type: String, trim: true},
+
+    kinhNghiem:{type: String, trim: true},
     
-    ngayDungTuyen:{type: Date, trim: true},
+    ngatHetHan:{type: Date, trim: true},
     
     moTaYeuCau:{type: String, trim: true},
     
@@ -31,10 +33,6 @@ const postSchema= mongoose.Schema(
 
     gioitinh:{type: String, trim: true},
 
-    ngayhethan:{type: Date, trim: true},
-
-    mucluong:{type: String, trim: true},
-
     bangcap:{type: String, trim: true},
 
     tutuoi:{type: Number, trim: true},
@@ -43,7 +41,7 @@ const postSchema= mongoose.Schema(
 
     trangthai:{type: String, trim: true},
 
-    ngonngu: { type: mongoose.Schema.Types.ObjectId, ref: "NgonNgu" },
+    ngonngu:[ { type: mongoose.Schema.Types.ObjectId, ref: "NgonNgu" }],
 
     nhatuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "NhaTuyenDung" }
   },

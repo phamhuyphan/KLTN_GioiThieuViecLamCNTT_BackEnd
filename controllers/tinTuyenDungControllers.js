@@ -17,8 +17,8 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
 
 //  Get  Tin Tuyển Dụng by ID
 const getTinTuyenDungById = asyncHandler(async (req, res) => {
-    const id = req.body;
-    await  Post.findOne(id)
+    const id = req.params.id;
+    await  Post.findById(id)
             .populate('ngonngu')
            .populate('nhatuyendung').then(data => {
                let result = data
@@ -40,9 +40,10 @@ const getAllTinTuyenDungByIdNhaTuyenDung = asyncHandler(async (req, res) => {
            })
 });
 
-const createTinTuyenDung = asyncHandler(async (req, res) => {
 
-    let createPost = await Post.create({
+const createTinTuyenDung = asyncHandler(async (req, res) => {
+    const post = await  Post.create({
+
     tieude :req.body.tieude,
 
     vitri:req.body.vitri,
@@ -59,7 +60,7 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
     
     moTaCongViec:req.body.moTaCongViec,
     
-    ngayDungTuyen:req.body.ngayDungTuyen,
+    ngatHetHan:req.body.ngatHetHan,
     
     moTaYeuCau:req.body.moTaCongViec,
     
@@ -73,8 +74,6 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
 
     gioitinh:req.body.gioitinh,
 
-    ngayhethan:req.body.ngayhethan,
-
     mucluong:req.body.mucluong,
 
     bangcap:req.body.bangcap,
@@ -85,19 +84,21 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
 
     trangthai:req.body.trangthai,
 
-    ngonngu:req.body.ngonnguId,
+    ngonngu:req.body.ngonngu,
 
-    nhatuyendung:req.body.nhatuyendungId
+    nhatuyendung:req.body.nhatuyendung
+    })
+    const a = await post.populate("ngonngu")
+    const b = await post.populate("nhatuyendung")
+    .then(data => {
+        let result = data;
+        res.json(result);
+        console.log(result);
+    }).catch(error => {
+        res.status(400).send(error.message || error)
     })
 
-    if(createPost){
-        res.send(createPost);
-    }else{
-        res.status(404);
-        throw new Error(`Create not sure`);
-    }
-
-});
+})
 
 const deleteTinTuyenDung = asyncHandler(async (req, res) => {
     const { postId } = req.body;
@@ -146,7 +147,7 @@ const updateTinTuyenDung = asyncHandler(async (req, res) => {
         
         moTaCongViec:req.body.moTaCongViec,
         
-        ngayDungTuyen:req.body.ngayDungTuyen,
+        ngatHetHan:req.body.ngatHetHan,
         
         moTaYeuCau:req.body.moTaCongViec,
         
@@ -160,8 +161,6 @@ const updateTinTuyenDung = asyncHandler(async (req, res) => {
     
         gioitinh:req.body.gioitinh,
     
-        ngayhethan:req.body.ngayhethan,
-    
         mucluong:req.body.mucluong,
     
         bangcap:req.body.bangcap,
@@ -172,7 +171,6 @@ const updateTinTuyenDung = asyncHandler(async (req, res) => {
 
         trangthai:req.body.trangthai,
 
-        // ngonngu:req.ngonngu.id,
         
     })
 
