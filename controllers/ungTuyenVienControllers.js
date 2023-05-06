@@ -107,8 +107,8 @@ const deleteUngTuyenVien = asyncHandler(async (req, res) => {
 })
 
 const updateThongTinUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData ={
         hovaten: req.body.hovaten,
         anhdaidien:req.body.anhdaidien,
         sdt: req.body.sdt,
@@ -116,19 +116,22 @@ const updateThongTinUngTuyenVien = asyncHandler(async (req, res) => {
         ngaysinh:req.body.ngaysinh,
         diachi: req.body.diachi,
         email:req.body.email,
-    })
-
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not sure`);
-    }
+    };
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 const updateKinhNghiemLamViecUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData = {
         chucvu :req.body.chucvu,
 
         tencty:req.body.tencty,
@@ -138,33 +141,39 @@ const updateKinhNghiemLamViecUngTuyenVien = asyncHandler(async (req, res) => {
         denngayKinhNghiemLV:req.body.denngayKinhNghiemLV,
 
         motachitietKinhNghiemLV:req.body.motachitietKinhNghiemLV
-    })
-
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not su`);
     }
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 const updateKiNangUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData ={
         kiNang:req.body.kiNang
-    })
-
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not su`);
     }
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 const updateHocVanUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData ={
         tenNganhHoc :req.body.tenNganhHoc,
 
         tenTruongHoc:req.body.tenTruongHoc,
@@ -174,39 +183,48 @@ const updateHocVanUngTuyenVien = asyncHandler(async (req, res) => {
         denngayHocVan:req.body.denngayHocVan,
 
         motachitietHocVan:req.body.motachitietHocVan
-    })
-
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not su`);
     }
+
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 const updateChungChiUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData = {
         tenchungchi :req.body.tenchungchi,
 
         tochuc:req.body.tochuc,
 
         motachitietChungChi:req.body.motachitietChungChi,
 
-        ngaycap:req.body.ngaycap
-    })
+        ngaycap:req.body.ngaycap,
 
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not su`);
+        ngayhethan:req.body.ngayhethan
     }
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 const updateDanhHieuvaGiaThuongUngTuyenVien = asyncHandler(async (req, res) => {
-    const { ungTuyenVienId } = req.body;
-    let update = UngTuyenVien.findByIdAndUpdate(ungTuyenVienId,{
+    const ungTuyenVienId = req.body.ungTuyenVienId;
+    let updateData = {
         tenGiaiThuong :req.body.tenGiaiThuong,
 
         tochucGiaiThuong:req.body.tochucGiaiThuong,
@@ -216,14 +234,18 @@ const updateDanhHieuvaGiaThuongUngTuyenVien = asyncHandler(async (req, res) => {
         nam:req.body.nam,
 
         motachitietGiaiThuong:req.body.motachitietGiaiThuong,
-    })
-
-    if(update){
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not su`);
     }
+
+    try {
+        const update = await UngTuyenVien.findByIdAndUpdate(ungTuyenVienId, updateData, { new: true });
+        if (!update) {
+          return res.status(404).send('Không tìm thấy ứng tuyển viên');
+        }
+        res.json(update);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật thông tin ứng tuyển viên');
+      }
 })
 
 module.exports = {
