@@ -218,7 +218,6 @@ const registerUser = asyncHandler(async (req, res) => {
       pass: process.env.MAIL_PASSWORD, // generated ethereal password
     },
   });
-
   const info = {
     from: process.env.MAIL_FROM_ADDRESS, // sender address
     to: JSON.stringify(email), // list of receivers
@@ -226,15 +225,32 @@ const registerUser = asyncHandler(async (req, res) => {
     text: "Hello world?", // plain text body
     html: `<h2>${otp}</h2>`, // html body
   }
-
   if (!username || !email || !password || !loaitaikhoan ) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
-
   const userExists = await User.findOne({ email }).catch(err => { console.log(err) });
 
   if (userExists && (userExists.verify === false)) {
+    try {
+      const updateUser = await User.findOneAndUpdate(
+        { email: email },
+        {
+          $set: {
+            username: username,
+            password: password,
+            loaitaikhoan:loaitaikhoan
+          },
+        },
+        { new: true }
+      );
+      if (!updateUser) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
     transporter.sendMail(info);
     const userid = (userExists._id).toHexString();
     const verify = await UserOTPVerification.create({
@@ -258,21 +274,15 @@ const registerUser = asyncHandler(async (req, res) => {
       pic,
       verify: false
     });
+    
+    transporter.sendMail(info);
     const userid = (user._id).toHexString();
-    await UserOTPVerification.create({
+    const verify = await UserOTPVerification.create({
       userId: userid,
       otp: otp,
     });
-    if (user) {
-      res.status(201).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        pic: user.pic,
-        loaitaikhoan:user.loaitaikhoan,
-        verify: user.verify,
-        token: generateToken(user._id),
-      });
+    if (user && verify) {
+      res.json(verify);
     } else {
       res.status(400);
       throw new Error("User not found");
@@ -287,9 +297,6 @@ const sendEmail = asyncHandler(async (req, res) => {
   await UserOTPVerification.findOne({ userId: userId }).then(data => {
     console.log(userId);
     const otpdata = data.otp;
-
-    // console.log(typeof otpdata);
-    // console.log(typeof otp);
     if (otp == otpdata) {
       User.findByIdAndUpdate(userId, { verify: true }).then(data => {
         res.json("Verify Success");
