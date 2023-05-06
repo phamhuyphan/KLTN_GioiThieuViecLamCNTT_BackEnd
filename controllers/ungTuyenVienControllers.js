@@ -82,7 +82,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
 
         motachitietGiaiThuong:req.body.motachitietGiaiThuong,
         
-        taikhoan:req.user.id
+        taikhoan:req.user._id
     })
     const a = await ungtuyenvien.populate("taikhoan","-password")
     .then(data => {
@@ -91,7 +91,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
     }).catch(error => {
         res.status(400).send(error.message || error)
     })
-    console.log(req.user);
+
 })
 
 const deleteUngTuyenVien = asyncHandler(async (req, res) => {

@@ -36,7 +36,7 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
         ngaythamgia:req.body.ngaythamgia,
         email:req.body.email,
         loainhatuyendung:req.body.loainhatuyendung,
-        taikhoan:req.user.id
+        taikhoan:req.user._id
     })
     await create.populate("taikhoan","-password")
     .then(data => {
