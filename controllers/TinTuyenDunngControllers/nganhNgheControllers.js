@@ -5,8 +5,7 @@ const TinTuyenDung = require("../../models/tinTuyenDungModel")
 
 //  Get all nganh nghe
 const accessNganhNghe = asyncHandler(async (req, res) => {
-    await NganhNghe.find()
-            .populate('tintuyendung').then(data => {
+    await NganhNghe.find().then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -16,10 +15,8 @@ const accessNganhNghe = asyncHandler(async (req, res) => {
 
 const createNganhNghe = asyncHandler(async (req, res) => {
    const nganhNghe = await NganhNghe.create({
-        tennganhnghe: req.body.tennganhnghe,
-        tintuyendung: req.body.tintuyendung
+        tennganhnghe: req.body.tennganhnghe
     })
-    const a = await nganhNghe.populate('tintuyendung')
     .then(data => {
         let result = data
         res.json(result)

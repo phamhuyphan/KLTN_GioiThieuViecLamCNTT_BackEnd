@@ -14,14 +14,17 @@ const getNhaTuyenDungById = asyncHandler(async (req, res) => {
 })
 //  get all nhà tuyển dụng
 const accessNhaTuyenDung = asyncHandler(async (req, res) => {
-    let post = await  NhaTuyenDung.find()
-            .populate("taikhoan", "-password");
-    res.json(post)
+     await  NhaTuyenDung.find()
+            .populate("taikhoan", "-password").then(data => {
+                let result = data
+                res.json(result)
+            }).catch(error => {
+                res.status(400).send(error.message || error);
+            })
 })
 
 const createNhaTuyenDung = asyncHandler(async (req, res) => {
-
-    let create = await NhaTuyenDung.create({
+    const create = await NhaTuyenDung.create({
         tennhatuyendung: req.body.tennhatuyendung,
         anhdaidien:req.body.anhdaidien,
         tencongty: req.body.tencongty,
@@ -32,10 +35,10 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
         ngaythamgia:req.body.ngaythamgia,
         email:req.body.email,
         loainhatuyendung:req.body.loainhatuyendung,
-        taikhoan:req.user._id
+        // taikhoan:req.user.
     })
     
-    const a = await create.populate("taikhoan")
+    await create.populate("taikhoan","-password")
     .then(data => {
         let result = data;
         res.json(result);
@@ -44,7 +47,7 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
         res.status(400).send(error.message || error)
     })
     
-    console.log(req.user._id);
+    console.log(req.user);
 })
 
 const deleteNhaTuyenDung = asyncHandler(async (req, res) => {

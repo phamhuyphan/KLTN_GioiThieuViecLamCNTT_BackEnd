@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 const nganhNgheSchema= mongoose.Schema(
   {
-    tennganhnghe :{type: String,trim :true},
-
-    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "Post" }
-    
+    tennganhnghe :{type: String,trim :true} 
   },
   { timestamps: true }
 );

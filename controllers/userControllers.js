@@ -285,11 +285,11 @@ const sendEmail = asyncHandler(async (req, res) => {
   const { userId, otp } = req.body;
 
   await UserOTPVerification.findOne({ userId: userId }).then(data => {
-    console.log(data);
+    console.log(userId);
     const otpdata = data.otp;
 
-    console.log(typeof otpdata);
-    console.log(typeof otp);
+    // console.log(typeof otpdata);
+    // console.log(typeof otp);
     if (otp == otpdata) {
       User.findByIdAndUpdate(userId, { verify: true }).then(data => {
         res.json("Verify Success");

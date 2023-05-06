@@ -4,8 +4,6 @@ const postSchema= mongoose.Schema(
     tieude :{type: String,trim :true},
     
     diaChi:{type: String, trim: true},
-    
-    nganhNghe:{type: String, trim: true},
 
     vitri:{type: String, trim: true},
 
@@ -19,7 +17,7 @@ const postSchema= mongoose.Schema(
 
     kinhNghiem:{type: String, trim: true},
     
-    ngatHetHan:{type: Date, trim: true},
+    ngayHetHan:{type: Date, trim: true},
     
     moTaYeuCau:{type: String, trim: true},
     
@@ -40,6 +38,8 @@ const postSchema= mongoose.Schema(
     dentuoi:{type: Number, trim: true},
 
     trangthai:{type: String, trim: true},
+
+    nganhnghe: { type: mongoose.Schema.Types.ObjectId, ref: "NganhNghe" },
 
     ngonngu:[ { type: mongoose.Schema.Types.ObjectId, ref: "NgonNgu" }],
 
