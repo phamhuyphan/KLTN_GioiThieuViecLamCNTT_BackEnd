@@ -82,7 +82,7 @@ const createUngTuyenVien = asyncHandler(async (req, res) => {
 
         motachitietGiaiThuong:req.body.motachitietGiaiThuong,
         
-        taikhoan:req.user._conditions._id
+        taikhoan:req.user.id
     })
     const a = await ungtuyenvien.populate("taikhoan","-password")
     .then(data => {

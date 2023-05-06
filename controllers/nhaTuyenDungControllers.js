@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
-
+const User = require("../models/userModel")
 const getNhaTuyenDungById = asyncHandler(async (req, res) => {
     const id = req.params.id;
     await  NhaTuyenDung.findById(id)
@@ -24,6 +24,7 @@ const accessNhaTuyenDung = asyncHandler(async (req, res) => {
 })
 
 const createNhaTuyenDung = asyncHandler(async (req, res) => {
+
     const create = await NhaTuyenDung.create({
         tennhatuyendung: req.body.tennhatuyendung,
         anhdaidien:req.body.anhdaidien,
@@ -35,19 +36,15 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
         ngaythamgia:req.body.ngaythamgia,
         email:req.body.email,
         loainhatuyendung:req.body.loainhatuyendung,
-        // taikhoan:req.user.
+        taikhoan:req.user.id
     })
-    
     await create.populate("taikhoan","-password")
     .then(data => {
         let result = data;
         res.json(result);
-        console.log(result);
     }).catch(error => {
         res.status(400).send(error.message || error)
     })
-    
-    console.log(req.user);
 })
 
 const deleteNhaTuyenDung = asyncHandler(async (req, res) => {
