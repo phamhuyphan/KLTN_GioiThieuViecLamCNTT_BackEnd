@@ -16,6 +16,19 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
             })
 });
 
+//Search Tin Tuyên dụng theo tiêu đề 
+const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
+    try {
+        const tieude = req.params.tieude;
+        const regex = new RegExp(tieude, 'i');
+        const tinTuyenDung = await Post.find({ tieude: regex });
+        res.json(tinTuyenDung);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+});
+
 //  Get  Tin Tuyển Dụng by ID
 const getTinTuyenDungById = asyncHandler(async (req, res) => {
     const id = req.params.id;
@@ -173,5 +186,6 @@ module.exports = {
     updateTinTuyenDung,
     getTinTuyenDungById,
     getAllTinTuyenDungByIdNhaTuyenDung,
-    duyetTinTuyenDung
+    duyetTinTuyenDung,
+    searchTinTuyenDUngByTieuDe
 }
