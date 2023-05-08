@@ -13,6 +13,18 @@ const accessNgonNgu = asyncHandler(async (req, res) => {
             })
 })
 
+//  Get  Tin Tuyển Dụng by ID
+const getNgonNguById = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    await  NgonNgu.findById(id)
+            .then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+});
+
 const createNgonNgu = asyncHandler(async (req, res) => {
 
      NgonNgu.create({
@@ -55,5 +67,6 @@ module.exports = {
     accessNgonNgu,
     createNgonNgu,
     deleteNgonNgu,
-    updateNgonNgu
+    updateNgonNgu,
+    getNgonNguById
 }

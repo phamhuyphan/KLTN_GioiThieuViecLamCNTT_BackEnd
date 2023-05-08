@@ -3,7 +3,8 @@ const {
     accessNgonNgu,
     createNgonNgu,
     deleteNgonNgu,
-    updateNgonNgu
+    updateNgonNgu,
+    getNgonNguById
   } = require("../controllers/ngonNguControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
@@ -13,6 +14,7 @@ router.route("/").get(protect,accessNgonNgu);
 router.route("/").post(protect,createNgonNgu);
 router.route("/update").put(protect,updateNgonNgu);
 router.route("/").delete(protect,deleteNgonNgu);
+router.route("/:id").get(protect,getNgonNguById);
 
 module.exports = router;
 
