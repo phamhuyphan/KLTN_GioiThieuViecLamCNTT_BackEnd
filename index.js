@@ -14,6 +14,7 @@ const ungtuyenvienRoutes = require("./routes/ungTuyenVienRouters");
 const ngonguRoutes = require("./routes/ngonNguRouters");
 const nganhngheoutes = require("./routes/TinTuyenDungRouters/nganhNgheRouters");
 const donungtuyenRoutes = require("./routes/donUngTuyenRouters");
+const danhgiaRoutes = require("./routes/TinTuyenDungRouters/danhGiaRouters");
 
 app.use(cors())
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use("/api/ungtuyenvien", ungtuyenvienRoutes);
 app.use("/api/ngonngu",ngonguRoutes);
 app.use("/api/nganhnghe",nganhngheoutes);
 app.use("/api/donungtuyen",donungtuyenRoutes);
-
+app.use("/api/danhgia",danhgiaRoutes);
 
 const PORT = process.env.PORT;
 const server = app.listen(

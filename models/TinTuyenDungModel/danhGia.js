@@ -7,7 +7,7 @@ const danhGiaSchema= mongoose.Schema(
 
     xeploai:{type: String, trim: true},
 
-    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "TinTuyenDung" },
+    tintuyendung: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     
     ungtuyenvien: { type: mongoose.Schema.Types.ObjectId, ref: "UngTuyenVien" }
     

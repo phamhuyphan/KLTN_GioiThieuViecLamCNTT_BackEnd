@@ -38,7 +38,7 @@ const accessDonUngTuyen = asyncHandler(async (req, res) => {
 
 //  Get All Tin Tuyển Dụng by ID nha tuyen dung 
 const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ nhatuyendung: req.params.tintuyendungId })
+    await  DonUngTuyen.find({ nhatuyendung: req.params.nhaTuyenDungId })
     .populate('ungtuyenvien')
     .populate('tintuyendung').then(data => {
                let result = data
@@ -68,14 +68,14 @@ const updateDonUngTuyen = asyncHandler(async (req, res) => {
     };
   
     try {
-      const tuyenDung = await Post.findByIdAndUpdate(donUngTuyenId, updateData, { new: true });
+      const tuyenDung = await DonUngTuyen.findByIdAndUpdate(donUngTuyenId, updateData, { new: true });
       if (!tuyenDung) {
         return res.status(404).send('Không tìm thấy đơn ứng tuyển');
       }
       res.json(tuyenDung);
     } catch (error) {
       console.error(error);
-      res.status(500).send('Lỗi khi cập nhật tin tuyển dụng');
+      res.status(500).send('Lỗi khi cập nhật đơn ứng tuyển');
     }
   });
 

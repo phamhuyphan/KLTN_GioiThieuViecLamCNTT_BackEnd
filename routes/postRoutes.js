@@ -19,7 +19,7 @@ router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
 router.route("/:id").get(protect,getTinTuyenDungById);
-router.route("/:nhatuyendungId").delete(protect,getAllTinTuyenDungByIdNhaTuyenDung);
+router.route("/:nhatuyendungId").get(protect,getAllTinTuyenDungByIdNhaTuyenDung);
 router.route("/search/:tieude").get(protect,searchTinTuyenDUngByTieuDe);
 module.exports = router;
 

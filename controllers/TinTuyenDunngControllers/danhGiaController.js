@@ -1,12 +1,26 @@
 const asyncHandler = require("express-async-handler")
 const DanhGia = require("../../models/TinTuyenDungModel/danhGia")
-const TinTuyenDung = require("../../models/tinTuyenDungModel")
-const NhaTuyenDung = require("../../models/nhaTuyenDungModel")
 
+
+// Get All danh gia
 const accessDanhGia = asyncHandler(async (req, res) => {
-    await DanhGia.find({ tintuyendung: req.params.tintuyendungId })
+    await DanhGia.find()
             .populate('tintuyendung')
-            .populate('ungtuyenvien').then(data => {
+            .populate('ungtuyenvien')
+            .then(data => {
+                let result = data
+                res.json(result)
+            }).catch(error => {
+                res.status(400).send(error.message || error);
+            })
+})
+
+// Get All danh gia by ID tin tuyen dung
+const getAllDanhGiaByIdTinTuyenDung = asyncHandler(async (req, res) => {
+    await DanhGia.find({ tintuyendungId: req.params.tintuyendungId })
+            .populate('tintuyendung')
+            .populate('ungtuyenvien')
+            .then(data => {
                 let result = data
                 res.json(result)
             }).catch(error => {
@@ -16,15 +30,16 @@ const accessDanhGia = asyncHandler(async (req, res) => {
 
 const createDanhGia = asyncHandler(async (req, res) => {
 
-     DanhGia.create({
+    const danhgia = await DanhGia.create({
         noidung: req.body.noidung,
         ngay: req.body.ngay,
         xeploai:req.body.xeploai,
-        tintuyendung:req.tintuyendung.id,
-        ungtuyenvien:req.ungtuyenvien.id
+        tintuyendung:req.body.tintuyendung,
+        ungtuyenvien:req.body.ungtuyenvien
     })
-    .populate('tintuyendung')
-    .populate('ungtuyenvien').then(data => {
+    const a = await danhgia.populate('tintuyendung')
+    const b = await danhgia.populate('ungtuyenvien')
+    .then(data => {
         let result = data
         res.json(result)
     }).catch(error => {
@@ -34,36 +49,40 @@ const createDanhGia = asyncHandler(async (req, res) => {
 })
 
 const deleteDanhGia = asyncHandler(async (req, res) => {
-    DanhGia.deleteOne({ id: req.params.DanhGiaId }).then((data) => {
-        res.send(data)
-    }).catch(error => {
-        res.send(error)
-    })
+    const { danhGiaId } = req.body;
+    const deleteDanhGia = await DanhGia.deleteOne({_id:danhGiaId})
+    if(deleteDanhGia){
+        res.send("delete "+danhGiaId)
+    }else{
+        res.status(404);
+        throw new Error(`Delete not sure`);
+    }
 
 })
 
 const updateDanhGia = asyncHandler(async (req, res) => {
-    const { DanhGiaId } = req.params.DanhGiaId;
-    const    noidung = req.body.noidung;
-    const    ngay = req.body.ngay;
-    const    xeploai = req.body.xeploai;
-    TinTuyenDung.findById(req.params.tintuyendungId).lean()
-        .then(() => {
-            return DanhGia.findByIdAndUpdate(req.params.DanhGiaId, {
-                noidung,
-                ngay,xeploai
-            }, { new: true,new1 :true,
-                new2: true}).lean();
-        }).then((updateDanhGia) => {
-            res.json(updateDanhGia);
-        }).catch(error => {
-            res.send(error)
-        })
+    const  danhGiaId = req.body.danhGiaId;
+    const updateData = {
+        noidung : req.body.noidung,
+        ngay : req.body.ngay,
+        xeploai :req.body.xeploai
+    };
+    try {
+        const tuyenDung = await DanhGia.findByIdAndUpdate(danhGiaId, updateData, { new: true });
+        if (!tuyenDung) {
+          return res.status(404).send('Không tìm thấy đánh giá');
+        }
+        res.json(tuyenDung);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật đánh giá');
+      }
 })
 
 module.exports = {
     accessDanhGia,
     createDanhGia,
     deleteDanhGia,
-    updateDanhGia
+    updateDanhGia,
+    getAllDanhGiaByIdTinTuyenDung
 }
