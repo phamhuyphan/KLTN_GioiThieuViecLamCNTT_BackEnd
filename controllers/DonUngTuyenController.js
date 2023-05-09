@@ -36,9 +36,9 @@ const accessDonUngTuyen = asyncHandler(async (req, res) => {
            })
 });
 
-//  Get All Tin Tuyển Dụng by ID nha tuyen dung 
+//  Get All Don ung tuyen by id tin tuyen dung 
 const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ nhatuyendung: req.params.nhaTuyenDungId })
+    await  DonUngTuyen.find({ nhaTuyenDungId: req.params.nhaTuyenDungId })
     .populate('ungtuyenvien')
     .populate('tintuyendung').then(data => {
                let result = data
@@ -48,9 +48,9 @@ const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
            })
 });
 
-//  Get All Tin Tuyển Dụng by ID nha tuyen dung 
+//  Get All Don ung tuyen by id ung tuyen vien
 const getAllDonUngTuyenByUngTuyenVien = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ nhatuyendung: req.params.ungtuyenvienId })
+    await  DonUngTuyen.find({ ungtuyenvienId: req.params.ungtuyenvienId })
     .populate('ungtuyenvien')
     .populate('tintuyendung').then(data => {
                let result = data
@@ -79,10 +79,23 @@ const updateDonUngTuyen = asyncHandler(async (req, res) => {
     }
   });
 
+  const deleteDonUngTuyen = asyncHandler(async (req, res) => {
+    const { donUngTuyenId } = req.body;
+    const deleteDonUngTuyen = await DonUngTuyen.deleteOne({_id:donUngTuyenId})
+    if(deleteDonUngTuyen){
+        res.send("delete "+donUngTuyenId)
+    }else{
+        res.status(404);
+        throw new Error(`Delete not sure`);
+    }
+
+})
+
 module.exports = {
     createDonUngTuyen,
     accessDonUngTuyen,
     getAllDonUngTuyenByTinTuyenDung,
     getAllDonUngTuyenByUngTuyenVien,
-    updateDonUngTuyen
+    updateDonUngTuyen,
+    deleteDonUngTuyen
 }

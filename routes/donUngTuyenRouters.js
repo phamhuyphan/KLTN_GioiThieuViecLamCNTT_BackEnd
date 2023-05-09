@@ -2,7 +2,7 @@ const express = require("express");
 const {
     accessDonUngTuyen,
     createDonUngTuyen,
-    // deleteDonUngTuyen,
+    deleteDonUngTuyen,
     updateDonUngTuyen,
     getAllDonUngTuyenByTinTuyenDung,getAllDonUngTuyenByUngTuyenVien
   } = require("../controllers/DonUngTuyenController")
@@ -15,7 +15,7 @@ router.route("/:ungtuyenvienId").get(protect,getAllDonUngTuyenByUngTuyenVien);
 router.route("/:tintuyendungId").get(protect,getAllDonUngTuyenByTinTuyenDung);
 router.route("/").post(protect,createDonUngTuyen);
 router.route("/update").put(protect,updateDonUngTuyen);
-// router.route("/").delete(protect,deleteDonUngTuyen);
+router.route("/").delete(protect,deleteDonUngTuyen);
 
 module.exports = router;
 
