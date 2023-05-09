@@ -29,6 +29,29 @@ const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
       }
 });
 
+//Search Tin Tuyên dụng theo lĩnh vực cấp bật và mức lương
+const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req, res) => {
+    try {
+        const linhvuc = req.body.linhvuc;
+        const capbat = req.body.capbat;
+        const mucluong = req.body.mucluong;
+        if((mucluong == null || mucluong == undefined) && (capbat == null || capbat == undefined)){
+            const tinTuyenDung = await Post.find({linhvuc});
+            res.json(tinTuyenDung);
+        }else if((mucluong == null || mucluong == undefined) && (linhvuc == null || linhvuc == undefined)){
+            const tinTuyenDung = await Post.find({capbat});
+            res.json(tinTuyenDung);
+        }else if((linhvuc == null || linhvuc == undefined) && (capbat == null || capbat == undefined)){
+            const tinTuyenDung = await Post.find({mucluong});
+            res.json(tinTuyenDung);
+        }
+        
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+});
+
 //  Get  Tin Tuyển Dụng by ID
 const getTinTuyenDungById = asyncHandler(async (req, res) => {
     const id = req.params.id;
@@ -187,5 +210,6 @@ module.exports = {
     getTinTuyenDungById,
     getAllTinTuyenDungByIdNhaTuyenDung,
     duyetTinTuyenDung,
-    searchTinTuyenDUngByTieuDe
+    searchTinTuyenDUngByTieuDe,
+    searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong
 }
