@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
-const User = require("../models/userModel")
 const getNhaTuyenDungById = asyncHandler(async (req, res) => {
     const id = req.params.id;
     await  NhaTuyenDung.findById(id)
@@ -48,8 +47,8 @@ const createNhaTuyenDung = asyncHandler(async (req, res) => {
 })
 
 const deleteNhaTuyenDung = asyncHandler(async (req, res) => {
-    const { nhatuyendungId } = req.body;
-    let deleteNhaTuyenDung =  NhaTuyenDung.deleteOne({_id:nhatuyendungId})
+    const nhatuyendungId = req.body.nhatuyendungId;
+    let deleteNhaTuyenDung = await NhaTuyenDung.deleteOne({_id:nhatuyendungId})
     if(deleteNhaTuyenDung){
         res.send("delete "+nhatuyendungId)
     }else{
@@ -60,8 +59,8 @@ const deleteNhaTuyenDung = asyncHandler(async (req, res) => {
 })
 
 const updateNhaTuyenDung = asyncHandler(async (req, res) => {
-    const { nhatuyendungId } = req.body;
-    let update = NhaTuyenDung.findByIdAndUpdate(nhatuyendungId,{
+    const nhatuyendungId = req.body.nhatuyendungId;
+    const updateData = {
         tennhatuyendung: req.body.tennhatuyendung,
         anhdaidien:req.body.anhdaidien,
         tencongty: req.body.tencongty,
@@ -71,14 +70,18 @@ const updateNhaTuyenDung = asyncHandler(async (req, res) => {
         diachiWebsite:req.body.diachiWebsite,
         ngaythamgia:req.body.ngaythamgia,
         email:req.body.email,
-        loainhatuyendung:req.body.loainhatuyendung
-    })
+        loainhatuyendung:req.body.loainhatuyendung,
+    };
 
-    if(update){ 
-        res.json(update)
-    }else{
-        res.status(404);
-        throw new Error(`Delete not sure`);
+    try {
+        const tuyenDung = await NhaTuyenDung.findByIdAndUpdate(nhatuyendungId, updateData, { new: true });
+        if (!tuyenDung) {
+          return res.status(404).send('Không tìm nhà tuyển dụng');
+        }
+        res.json(tuyenDung);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật nhà tuyển dụng');
     }
 })
 
