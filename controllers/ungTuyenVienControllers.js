@@ -14,8 +14,8 @@ const accessUngTuyenVien = asyncHandler(async (req, res) => {
 
 //  Get  ung tuyen vien by ID
 const getUngTuyenVienById = asyncHandler(async (req, res) => {
-    const id = req.body;
-    await  UngTuyenVien.findOne(id)
+    const id = req.params.id;
+    await  UngTuyenVien.findById(id)
     .populate('taikhoan','-password').then(data => {
                let result = data
                res.json(result)
