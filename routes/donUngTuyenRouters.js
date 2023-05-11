@@ -12,7 +12,8 @@ const {
   
 router.route("/").get(protect,accessDonUngTuyen);
 router.route("/:ungtuyenvienId").get(protect,getAllDonUngTuyenByUngTuyenVien);
-router.route("/:tintuyendungId").get(protect,getAllDonUngTuyenByTinTuyenDung);
+router.route("/tintuyendung/:tintuyendungId").get(protect,getAllDonUngTuyenByTinTuyenDung);
+router.route("/nhatuyendung/:nhaTuyenDungId").get(protect,getAllDonUngTuyenByTinTuyenDung);
 router.route("/").post(protect,createDonUngTuyen);
 router.route("/update").put(protect,updateDonUngTuyen);
 router.route("/").delete(protect,deleteDonUngTuyen);
