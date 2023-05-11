@@ -6,8 +6,6 @@ const createDonUngTuyen = asyncHandler(async (req, res) => {
 
     trangthai :req.body.trangthai,
 
-    guimail:req.body.guimail,
-
     ungtuyenvien:req.body.ungtuyenvien,
 
     tintuyendung:req.body.tintuyendung
@@ -63,8 +61,7 @@ const getAllDonUngTuyenByUngTuyenVien = asyncHandler(async (req, res) => {
 const updateDonUngTuyen = asyncHandler(async (req, res) => {
     const donUngTuyenId = req.body.donUngTuyenId;
     const updateData = {
-        trangthai :req.body.trangthai,
-        guimail:req.body.guimail,
+        trangthai :req.body.trangthai
     };
   
     try {
