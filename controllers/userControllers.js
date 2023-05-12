@@ -167,6 +167,21 @@ const reserPassword = asyncHandler(async (req, res) => {
 
 })
 
+const recoveryPasword  = asyncHandler(async (req, res) => {
+  const email = req.body.email;
+  const password = process.env.PASSWORD_RESET;
+  const salt = await bcrypt.genSalt(10);
+  const password2 = await bcrypt.hash(password, salt);
+  console.log(password);
+  console.log(password2);
+  await User.updateOne({email}, { password: password2 }
+  ).then((data) => {
+    res.json(data);
+  }).catch((err) => {
+    res.send(err);
+  });
+
+})
 
 const getUserById = asyncHandler(async (req, res) => {
   const id = req.body;
@@ -388,5 +403,6 @@ module.exports = {
   forgotPassword,
   reserPassword,
   deleteUserById,
-  blockUserById
+  blockUserById,
+  recoveryPasword
 };
