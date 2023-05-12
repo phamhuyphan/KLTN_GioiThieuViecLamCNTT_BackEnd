@@ -7,7 +7,8 @@ const {
     getTinTuyenDungById,
     getAllTinTuyenDungByIdNhaTuyenDung,
     duyetTinTuyenDung,
-    searchTinTuyenDUngByTieuDe
+    searchTinTuyenDUngByTieuDe,
+    feedbackEmail
   } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
@@ -21,5 +22,6 @@ router.route("/").delete(protect,deleteTinTuyenDung);
 router.route("/:id").get(protect,getTinTuyenDungById);
 router.route("/getByNhaTuyenDung/:nhatuyendungId").get(getAllTinTuyenDungByIdNhaTuyenDung);
 router.route("/search/:tieude").get(searchTinTuyenDUngByTieuDe);
+router.route("/emailfeedback").post(protect,feedbackEmail);
 module.exports = router;
 

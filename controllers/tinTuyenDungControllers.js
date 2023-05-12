@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler")
+const nodemailer = require("nodemailer");
 const Post = require("../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
 
@@ -165,6 +166,34 @@ const duyetTinTuyenDung = asyncHandler(async (req, res) => {
 
 })
 
+const feedbackEmail = asyncHandler(async (req, res) => {
+
+    const { email, tilte, content } = req.body;
+  
+    // create reusable transporter object using the default SMTP transport
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MAIL_USERNAME, // generated ethereal user
+        pass: process.env.MAIL_PASSWORD, // generated ethereal password
+      },
+    });
+    const info = {
+      from: process.env.MAIL_FROM_ADDRESS, // sender address
+      to: JSON.stringify(email), // list of receivers
+      subject: tilte, // Subject line
+      text:content, // plain text body
+      html:'', // html body
+    }
+      const feekback =  transporter.sendMail(info);
+      if (!feekback) {
+        return res.status(404).send('Gủi mail thất bại');
+      }else{
+        return res.status(201).send("Gửi mail thành công.");
+    }
+
+  });
+
 const updateTinTuyenDung = asyncHandler(async (req, res) => {
     const postId = req.body.postId;
     const updateData = {
@@ -211,5 +240,6 @@ module.exports = {
     getAllTinTuyenDungByIdNhaTuyenDung,
     duyetTinTuyenDung,
     searchTinTuyenDUngByTieuDe,
-    searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong
+    searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong,
+    feedbackEmail
 }
