@@ -33,18 +33,45 @@ const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
 //Search Tin Tuyên dụng theo lĩnh vực cấp bật và mức lương
 const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req, res) => {
     try {
-        const linhvuc = req.body.linhvuc;
-        const capbat = req.body.capbat;
+        const vitri = req.body.vitri;
+        const ngonngu = req.body.ngonngu;
         const mucluong = req.body.mucluong;
-        if((mucluong == null || mucluong == undefined) && (capbat == null || capbat == undefined)){
-            const tinTuyenDung = await Post.find({linhvuc});
+        if((mucluong == null || mucluong == undefined) && (ngonngu == null || ngonngu == undefined)){
+            const tinTuyenDung = await Post.find({vitri});
             res.json(tinTuyenDung);
-        }else if((mucluong == null || mucluong == undefined) && (linhvuc == null || linhvuc == undefined)){
-            const tinTuyenDung = await Post.find({capbat});
+        }else if((mucluong == null || mucluong == undefined) && (vitri == null || vitri == undefined)){
+            const tinTuyenDung = await Post.find({ngonngu});
             res.json(tinTuyenDung);
-        }else if((linhvuc == null || linhvuc == undefined) && (capbat == null || capbat == undefined)){
+        }else if((vitri == null || vitri == undefined) && (ngonngu == null || ngonngu == undefined)){
             const tinTuyenDung = await Post.find({mucluong});
             res.json(tinTuyenDung);
+        }else if(ngonngu == null || ngonngu == undefined){
+            await Post.find({vitri}).then(
+                Post.find({mucluong}).then(data => {
+                    let result = data
+                    res.json(result)
+                })
+            ).catch(error => {
+                res.status(400).send(error.message || error);
+            })
+        }else if(mucluong == null || mucluong == undefined){
+            await Post.find({vitri}).then(
+                    Post.find({ngonngu}).then(data => {
+                        let result = data
+                        res.json(result)
+                    })
+            ).catch(error => {
+                res.status(400).send(error.message || error);
+            })
+        }else if(vitri == null || vitri == undefined){
+            await Post.find({mucluong}).then(
+                    Post.find({ngonngu}).then(data => {
+                        let result = data
+                        res.json(result)
+                    })
+            ).catch(error => {
+                res.status(400).send(error.message || error);
+            })
         }
         
       } catch (err) {
