@@ -20,7 +20,7 @@ const router = express.Router();
 
 router.route("/").get(protect,allUsers);
 router.route("/").post(registerUser);
-router.route("/").put(protect,blockUserById);
+router.route("/:userId").put(protect,blockUserById);
 router.route("/").delete(protect,deleteUserById);
 router.route("/verify").post(sendEmail);
 router.route("/verify/:id").post(getOTPById);
