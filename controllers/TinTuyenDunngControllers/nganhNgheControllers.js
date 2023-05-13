@@ -38,19 +38,19 @@ const deleteNganhNghe = asyncHandler(async (req, res) => {
 })
 
 const updateNganhNghe = asyncHandler(async (req, res) => {
-    const { NganhNgheId } = req.params.NganhNgheId;
-    const   tenNganhNghe = req.body.tenNganhNghe;
-    TinTuyenDung.findById(req.params.tintuyendungId).lean()
-        .then(() => {
-            return NganhNghe.findByIdAndUpdate(req.params.NganhNgheId, {
-                tenNganhNghe
-            }, { new2: true}).lean();
-        }).then((updateNganhNghe) => {
-            res.json(updateNganhNghe);
-        }).catch(error => {
-            res.send(error)
-        })
-})
+    const nganhNgheId = req.body.nganhNgheId;
+    const   updateData = {tennganhnghe:req.body.tenNganhNghe}
+    try {
+        const nganhnghe = await NganhNghe.findByIdAndUpdate(nganhNgheId, updateData, { new: true });
+        if (!nganhnghe) {
+          return res.status(404).send('Không tìm thấy nganh nghe');
+        }
+        res.json(nganhnghe);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật nganh nghe');
+    }
+});
 
 module.exports = {
     accessNganhNghe,
