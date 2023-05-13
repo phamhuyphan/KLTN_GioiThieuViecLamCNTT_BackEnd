@@ -17,6 +17,20 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
             })
 });
 
+// api sort theo luong và thời gian
+const accessTinTuyenDungSort = asyncHandler(async (req, res) => {
+    await  Post.find()
+           .populate('nganhnghe')
+           .populate('ngonngu')
+           .populate('nhatuyendung')
+           .then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+});
+
 //Search Tin Tuyên dụng theo tiêu đề 
 const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
     try {
