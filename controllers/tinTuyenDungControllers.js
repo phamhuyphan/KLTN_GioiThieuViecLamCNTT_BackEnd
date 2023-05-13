@@ -297,7 +297,7 @@ const duyetTinTuyenDung = asyncHandler(async (req, res) => {
 
 const feedbackEmail = asyncHandler(async (req, res) => {
 
-    const { email, tilte, content } = req.body;
+    const { email, content } = req.body;
   
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
@@ -310,7 +310,7 @@ const feedbackEmail = asyncHandler(async (req, res) => {
     const info = {
       from: process.env.MAIL_FROM_ADDRESS, // sender address
       to: JSON.stringify(email), // list of receivers
-      subject: tilte, // Subject line
+      subject:"Thông báo từ TimViecNhanh247", // Subject line
       text:content, // plain text body
       html:'', // html body
     }
