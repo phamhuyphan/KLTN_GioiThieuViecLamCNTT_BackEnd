@@ -209,7 +209,7 @@ const deleteUserById = asyncHandler(async (req, res) => {
 // api khóa user
 const blockUserById = asyncHandler(async (req, res) => {
   const id = req.params.userId;
-  const block =  await User.updateOne({ _id: id }, { verify:false })
+  const block =  await User.updateOne({ _id: id }, { statusOnline:false })
   if(block){
     res.status(201).send('Đã block user');
   }else{

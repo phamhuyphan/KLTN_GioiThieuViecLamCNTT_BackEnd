@@ -31,21 +31,22 @@ const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
 });
 
 //Search Tin Tuyên dụng theo lĩnh vực cấp bật và mức lương
+// ngon ngu : 
 const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req, res) => {
     try {
         const vitri = req.body.vitri;
-        const ngonngu = req.body.ngonngu;
+        const ngonngu = req.body.ngonnguId;
         const mucluong = req.body.mucluong;
-        if((mucluong == null || mucluong == undefined) && (ngonngu == null || ngonngu == undefined)){
+        if((mucluong == null || mucluong == undefined || mucluong.length == 0) && (ngonngu == null || ngonngu == undefined || ngonngu.length ==0)){
             const tinTuyenDung = await Post.find({vitri});
             res.json(tinTuyenDung);
-        }else if((mucluong == null || mucluong == undefined) && (vitri == null || vitri == undefined)){
+        }else if((mucluong == null || mucluong == undefined || mucluong.length ==0) && (vitri.length ==0 ||vitri == null || vitri == undefined)){
             const tinTuyenDung = await Post.find({ngonngu});
             res.json(tinTuyenDung);
-        }else if((vitri == null || vitri == undefined) && (ngonngu == null || ngonngu == undefined)){
+        }else if((vitri == null || vitri == undefined || vitri.length ==0) && (ngonngu == null || ngonngu == undefined || ngonngu.length ==0)){
             const tinTuyenDung = await Post.find({mucluong});
             res.json(tinTuyenDung);
-        }else if(ngonngu == null || ngonngu == undefined){
+        }else if(ngonngu == null || ngonngu == undefined || ngonngu.length ==0){
             await Post.find({vitri}).then(
                 Post.find({mucluong}).then(data => {
                     let result = data
@@ -54,7 +55,7 @@ const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req,
             ).catch(error => {
                 res.status(400).send(error.message || error);
             })
-        }else if(mucluong == null || mucluong == undefined){
+        }else if(mucluong == null || mucluong == undefined || mucluong.length == 0){
             await Post.find({vitri}).then(
                     Post.find({ngonngu}).then(data => {
                         let result = data
@@ -63,12 +64,22 @@ const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req,
             ).catch(error => {
                 res.status(400).send(error.message || error);
             })
-        }else if(vitri == null || vitri == undefined){
+        }else if(vitri == null || vitri == undefined || vitri.length ==0){
             await Post.find({mucluong}).then(
                     Post.find({ngonngu}).then(data => {
                         let result = data
                         res.json(result)
                     })
+            ).catch(error => {
+                res.status(400).send(error.message || error);
+            })
+        }else{
+            await Post.find({mucluong}).then(
+                    Post.find({ngonngu}).then(
+                        Post.find({vitri}).then(data => {
+                            let result = data
+                            res.json(result)
+                    }))
             ).catch(error => {
                 res.status(400).send(error.message || error);
             })

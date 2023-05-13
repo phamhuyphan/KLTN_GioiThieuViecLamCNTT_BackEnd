@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema(
       default:
        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-    statusOnline: { type: Boolean, required: true, default: false },
+    statusOnline: { type: Boolean, required: true, default: true },
   },
   {
     timestamps: true,
