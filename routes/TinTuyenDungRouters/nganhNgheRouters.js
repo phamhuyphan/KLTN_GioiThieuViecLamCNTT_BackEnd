@@ -12,7 +12,7 @@ const {
 router.route("/").get(accessNganhNghe);
 router.route("/").post(protect,createNganhNghe);
 router.route("/update").put(protect,updateNganhNghe);
-router.route("/").delete(protect,deleteNganhNghe);
+router.route("/:nganhNgheId").delete(protect,deleteNganhNghe);
 
 module.exports = router;
 

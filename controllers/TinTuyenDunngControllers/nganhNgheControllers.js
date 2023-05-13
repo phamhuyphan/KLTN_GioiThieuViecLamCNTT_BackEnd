@@ -27,12 +27,14 @@ const createNganhNghe = asyncHandler(async (req, res) => {
 })
 
 const deleteNganhNghe = asyncHandler(async (req, res) => {
-    NganhNghe.deleteOne({ id: req.params.NganhNgheId }).then((data) => {
-        res.send(data)
-    }).catch(error => {
-        res.send(error)
-    })
-
+    const nganhNgheId= req.params.nganhNgheId
+     const deleteNganhNGhe = await NganhNghe.deleteOne({ _id:nganhNgheId})
+    if(deleteNganhNGhe){
+        res.send("delete "+nganhNgheId)
+    }else{
+        res.status(404);
+        throw new Error(`Delete not sure`);
+    }
 })
 
 const updateNganhNghe = asyncHandler(async (req, res) => {
