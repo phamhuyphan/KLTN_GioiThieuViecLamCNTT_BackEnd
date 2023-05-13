@@ -52,18 +52,18 @@ const deleteNgonNgu = asyncHandler(async (req, res) => {
 })
 
 const updateNgonNgu = asyncHandler(async (req, res) => {
-    const { NgonNguId } = req.params.NgonNguId;
-    const   ngonngu = req.body.ngonngu;
-    TinTuyenDung.findById(req.params.tintuyendungId).lean()
-        .then(() => {
-            return NgonNgu.findByIdAndUpdate(req.params.NgonNguId, {
-                ngonngu
-            }, { new2: true}).lean();
-        }).then((updateNgonNgu) => {
-            res.json(updateNgonNgu);
-        }).catch(error => {
-            res.send(error)
-        })
+    const ngonnguId = req.body.ngonnguId;
+    const   updateData = {ngonngu:req.body.ngonngu}
+    try {
+        const ngonngu = await NgonNgu.findByIdAndUpdate(ngonnguId, updateData, { new: true });
+        if (!ngonngu) {
+          return res.status(404).send('Không tìm thấy ngon ngu');
+        }
+        res.json(ngonngu);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Lỗi khi cập nhật ngon ngu');
+    }
 })
 
 module.exports = {
