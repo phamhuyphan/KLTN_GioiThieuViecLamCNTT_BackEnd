@@ -16,8 +16,9 @@ const accessDanhGia = asyncHandler(async (req, res) => {
 })
 
 // Get All danh gia by ID tin tuyen dung
-const getAllDanhGiaByIdTinTuyenDung = asyncHandler(async (req, res) => {
-    await DanhGia.find({ tintuyendungId: req.params.tintuyendungId })
+const getAllDanhGiaByTinTuyenDung = asyncHandler(async (req, res) => {
+    const tintuyendungId = req.params.tintuyendungId;
+    await  DanhGia.find({ tintuyendung:tintuyendungId })
             .populate('tintuyendung')
             .populate('ungtuyenvien')
             .then(data => {
@@ -84,5 +85,5 @@ module.exports = {
     createDanhGia,
     deleteDanhGia,
     updateDanhGia,
-    getAllDanhGiaByIdTinTuyenDung
+    getAllDanhGiaByTinTuyenDung
 }
