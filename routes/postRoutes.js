@@ -9,13 +9,19 @@ const {
     duyetTinTuyenDung,
     searchTinTuyenDUngByTieuDe,
     feedbackEmail,
-    searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong
+    searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong,
+    accessTinTuyenDungSortCreatAt,
+    accessTinTuyenDungSortLuong,
+    accessTinTuyenDungSortOption
   } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
   const router = express.Router();
   
 router.route("/").get(accessTinTuyenDung);
+router.route("/sortCreatAt").get(accessTinTuyenDungSortCreatAt);
+router.route("/sortLuong").get(accessTinTuyenDungSortLuong);
+router.route("/sort").get(accessTinTuyenDungSortOption);
 router.route("/searchluongcapbatchucvu").get(searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong);
 router.route("/").post(protect,createTinTuyenDung);
 router.route("/duyet").put(protect,duyetTinTuyenDung);

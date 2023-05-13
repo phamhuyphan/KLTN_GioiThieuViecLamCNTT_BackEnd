@@ -17,18 +17,95 @@ const accessTinTuyenDung = asyncHandler(async (req, res) => {
             })
 });
 
-// api sort theo luong và thời gian
-const accessTinTuyenDungSort = asyncHandler(async (req, res) => {
+// api sort theo thời gian
+const accessTinTuyenDungSortCreatAt = asyncHandler(async (req, res) => {
     await  Post.find()
-           .populate('nganhnghe')
-           .populate('ngonngu')
-           .populate('nhatuyendung')
-           .then(data => {
+            .populate('nganhnghe')
+            .populate('ngonngu')
+            .populate('nhatuyendung')
+            .sort({ createdAt: -1 })
+            .exec()
+            .then(data => {
                let result = data
                res.json(result)
            }).catch(error => {
                res.status(400).send(error.message || error);
            })
+});
+
+// api sort 
+const accessTinTuyenDungSortOption = asyncHandler(async (req, res) => {
+
+    try{
+        const optionDate = req.body.optionDate;
+        const optionLuong = req.body.optionLuong;
+
+        if(optionDate == -1){
+            await  Post.find()
+            .populate('nganhnghe')
+            .populate('ngonngu')
+            .populate('nhatuyendung')
+            .sort({ createdAt: -1 })
+            .exec()
+            .then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+        }else if(optionLuong == -1){
+            try {
+                const posts = await Post.aggregate([
+                  {
+                    $addFields: {
+                      luong: {
+                        $toDouble: {
+                          $arrayElemAt: [
+                            { $split: ["$mucluong", " - "] },
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  { $sort: { luong: -1 } }
+                ]);
+                res.json(posts);
+              } catch (err) {
+                console.error(err.message);
+                res.status(500).send('Server Error');
+            }
+        }
+            
+    }catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// api sort theo luong 
+const accessTinTuyenDungSortLuong = asyncHandler(async (req, res) => {
+    try {
+        const posts = await Post.aggregate([
+          {
+            $addFields: {
+              luong: {
+                $toDouble: {
+                  $arrayElemAt: [
+                    { $split: ["$mucluong", " - "] },
+                    0
+                  ]
+                }
+              }
+            }
+          },
+          { $sort: { luong: -1 } }
+        ]);
+        res.json(posts);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 //Search Tin Tuyên dụng theo tiêu đề 
@@ -38,10 +115,10 @@ const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
         const regex = new RegExp(tieude, 'i');
         const tinTuyenDung = await Post.find({ tieude: regex });
         res.json(tinTuyenDung);
-      } catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
-      }
+    }
 });
 
 //Search Tin Tuyên dụng theo lĩnh vực cấp bật và mức lương
@@ -293,5 +370,8 @@ module.exports = {
     duyetTinTuyenDung,
     searchTinTuyenDUngByTieuDe,
     searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong,
-    feedbackEmail
+    feedbackEmail,
+    accessTinTuyenDungSortCreatAt,
+    accessTinTuyenDungSortLuong,
+    accessTinTuyenDungSortOption
 }
