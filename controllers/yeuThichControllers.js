@@ -57,9 +57,9 @@ const getAllYeuThichByUngTuyenVien = asyncHandler(async (req, res) => {
 });
 
 const deleteYeuThich = asyncHandler(async (req, res) => {
-    const { yeuThichId } = req.body;
-    const deleteDonUngTuyen = await YeuThich.deleteOne({_id:yeuThichId})
-    if(deleteDonUngTuyen){
+    const yeuThichId = req.params.yeuThichId;
+    const deleteYeuThich= await YeuThich.deleteOne({_id:yeuThichId})
+    if(deleteYeuThich){
         res.send("delete "+yeuThichId)
     }else{  
         res.status(404);

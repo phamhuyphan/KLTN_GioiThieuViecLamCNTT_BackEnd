@@ -14,7 +14,7 @@ router.route("/").get(protect,accessYeuThich);
 router.route("/:ungtuyenvienId").get(protect,getAllYeuThichByUngTuyenVien);
 router.route("/tintuyendung/:tintuyendungId").get(protect,getAllYeuThichByTinTuyenDung);
 router.route("/").post(protect,createYeuThich);
-router.route("/").delete(protect,deleteYeuThich);
+router.route("/:yeuThichId").delete(protect,deleteYeuThich);
 
 module.exports = router;
 
