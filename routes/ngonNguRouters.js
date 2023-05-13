@@ -13,7 +13,7 @@ const {
 router.route("/").get(protect,accessNgonNgu);
 router.route("/").post(protect,createNgonNgu);
 router.route("/update").put(protect,updateNgonNgu);
-router.route("/").delete(protect,deleteNgonNgu);
+router.route("/:ngonnguId").delete(protect,deleteNgonNgu);
 router.route("/:id").get(protect,getNgonNguById);
 
 module.exports = router;

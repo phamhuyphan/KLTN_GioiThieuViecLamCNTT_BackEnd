@@ -40,11 +40,14 @@ const createNgonNgu = asyncHandler(async (req, res) => {
 })
 
 const deleteNgonNgu = asyncHandler(async (req, res) => {
-    NgonNgu.deleteOne({ id: req.params.NgonNguId }).then((data) => {
-        res.send(data)
-    }).catch(error => {
-        res.send(error)
-    })
+    const ngonnguId= req.params.ngonnguId
+     const deleteNgonNgu = await NgonNgu.deleteOne({ _id:ngonnguId})
+    if(deleteNgonNgu){
+        res.send("delete "+deleteNgonNgu)
+    }else{
+        res.status(404);
+        throw new Error(`Delete not sure`);
+    }
 
 })
 
