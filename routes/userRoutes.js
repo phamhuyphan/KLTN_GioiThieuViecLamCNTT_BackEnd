@@ -12,7 +12,8 @@ const {
   reserPassword,
   deleteUserById,
   blockUserById,
-  recoveryPasword
+  recoveryPasword,
+  unblockUserById
 } = require("../controllers/userControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -21,6 +22,7 @@ const router = express.Router();
 router.route("/").get(protect,allUsers);
 router.route("/").post(registerUser);
 router.route("/:userId").put(protect,blockUserById);
+router.route("/unblockuser/:userId").put(protect,unblockUserById);
 router.route("/").delete(protect,deleteUserById);
 router.route("/verify").post(sendEmail);
 router.route("/verify/:id").post(getOTPById);

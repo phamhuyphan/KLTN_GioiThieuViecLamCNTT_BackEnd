@@ -217,6 +217,17 @@ const blockUserById = asyncHandler(async (req, res) => {
   }
 })
 
+// api mở khóa user
+const unblockUserById = asyncHandler(async (req, res) => {
+  const id = req.params.userId;
+  const block =  await User.updateOne({ _id: id }, { statusOnline:true })
+  if(block){
+    res.status(201).send('Đã unblock user');
+  }else{
+    res.status(404).send('Unblock user not sure');
+  }
+})
+
 const registerUser = asyncHandler(async (req, res) => {
 
   const { username, email, password,loaitaikhoan, pic } = req.body;
@@ -402,5 +413,6 @@ module.exports = {
   reserPassword,
   deleteUserById,
   blockUserById,
-  recoveryPasword
+  recoveryPasword,
+  unblockUserById
 };
