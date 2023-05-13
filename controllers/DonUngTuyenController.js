@@ -36,7 +36,8 @@ const accessDonUngTuyen = asyncHandler(async (req, res) => {
 
 //  Get All Don ung tuyen by id tin tuyen dung 
 const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ nhaTuyenDungId: req.params.nhaTuyenDungId })
+    const tintuyendungId = req.params.tintuyendungId;
+    await  DonUngTuyen.find({ tintuyendung: tintuyendungId })
     .populate('ungtuyenvien')
     .populate('tintuyendung').then(data => {
                let result = data
@@ -48,7 +49,8 @@ const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
 
 //  Get All Don ung tuyen by id ung tuyen vien
 const getAllDonUngTuyenByUngTuyenVien = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ ungtuyenvienId: req.params.ungtuyenvienId })
+    const ungtuyenvienId = req.params.ungtuyenvienId;
+    await  DonUngTuyen.find({ ungtuyenvien: ungtuyenvienId })
     .populate('ungtuyenvien')
     .populate('tintuyendung').then(data => {
                let result = data
@@ -58,17 +60,6 @@ const getAllDonUngTuyenByUngTuyenVien = asyncHandler(async (req, res) => {
            })
 });
 
-//  Get All Don ung tuyen by id nha tuyen dung
-const getAllDonUngTuyenByNhaTuyenDung = asyncHandler(async (req, res) => {
-    await  DonUngTuyen.find({ nhaTuyenDungId: req.params.nhaTuyenDungId })
-    .populate('ungtuyenvien')
-    .populate('tintuyendung').then(data => {
-               let result = data
-               res.json(result)
-           }).catch(error => {
-               res.status(400).send(error.message || error);
-           })
-});
 
 const updateDonUngTuyen = asyncHandler(async (req, res) => {
     const donUngTuyenId = req.body.donUngTuyenId;
@@ -106,6 +97,5 @@ module.exports = {
     getAllDonUngTuyenByTinTuyenDung,
     getAllDonUngTuyenByUngTuyenVien,
     updateDonUngTuyen,
-    deleteDonUngTuyen,
-    getAllDonUngTuyenByNhaTuyenDung
+    deleteDonUngTuyen
 }

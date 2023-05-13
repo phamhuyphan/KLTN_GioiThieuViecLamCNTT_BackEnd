@@ -2,14 +2,14 @@ const asyncHandler = require("express-async-handler")
 const YeuThich = require("../models/yeuThichModel")
 // Tao yêu thích
 const createYeuThich = asyncHandler(async (req, res) => {
-    await  YeuThich.create({
+   const yeuthich =  await  YeuThich.create({
 
     ungtuyenvien:req.body.ungtuyenvien,
 
     tintuyendung:req.body.tintuyendung
     })
-    const a = await donungtuyen.populate("ungtuyenvien")
-    const b = await donungtuyen.populate("tintuyendung")
+    const a = await yeuthich.populate("ungtuyenvien")
+    const b = await yeuthich.populate("tintuyendung")
     .then(data => {
         let result = data;
         res.json(result);
@@ -61,7 +61,7 @@ const deleteYeuThich = asyncHandler(async (req, res) => {
     const deleteDonUngTuyen = await YeuThich.deleteOne({_id:yeuThichId})
     if(deleteDonUngTuyen){
         res.send("delete "+yeuThichId)
-    }else{s
+    }else{  
         res.status(404);
         throw new Error(`Delete not sure`);
     }
