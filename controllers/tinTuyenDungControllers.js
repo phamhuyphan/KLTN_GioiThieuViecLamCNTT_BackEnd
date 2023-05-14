@@ -53,28 +53,6 @@ const accessTinTuyenDungSortOption = asyncHandler(async (req, res) => {
            }).catch(error => {
                res.status(400).send(error.message || error);
            })
-        }else if(optionLuong == -1){
-            try {
-                const posts = await Post.aggregate([
-                  {
-                    $addFields: {
-                      luong: {
-                        $toDouble: {
-                          $arrayElemAt: [
-                            { $split: ["$mucluong", " - "] },
-                            0
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  { $sort: { luong: -1 } }
-                ]);
-                res.json(posts);
-              } catch (err) {
-                console.error(err.message);
-                res.status(500).send('Server Error');
-            }
         }
             
     }catch (err) {
@@ -112,9 +90,28 @@ const accessTinTuyenDungSortLuong = asyncHandler(async (req, res) => {
 const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
     try {
         const tieude = req.params.tieude;
-        const regex = new RegExp(tieude, 'i');
-        const tinTuyenDung = await Post.find({ tieude: regex });
-        res.json(tinTuyenDung);
+        const optionDate = req.body.optionDate;
+        const optionLuong = req.body.optionLuong;
+        if(optionDate==-1){
+          const regex = new RegExp(tieude, 'i');
+          const tinTuyenDung = await Post.find({ tieude: regex })
+          .sort({ createdAt: -1 })
+          .exec()
+          .then(data => {
+            let result = data
+            res.json(result)
+          })
+        }else if(optionDate == -1){
+          const regex = new RegExp(tieude, 'i');
+          const tinTuyenDung = await Post.find({ tieude: regex })
+          .sort({ createdAt: -1 })
+          .exec()
+          .then(data => {
+            let result = data
+            res.json(result)
+          })
+        }
+        
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
