@@ -34,6 +34,18 @@ const accessDonUngTuyen = asyncHandler(async (req, res) => {
            })
 });
 
+//  Get All Don ung tuyen by id nha tuyen dung
+const getAllDonUngTuyenByNhaTuyenDung = asyncHandler(async (req, res) => {
+    await  DonUngTuyen.find({ nhaTuyenDungId: req.params.nhaTuyenDungId })
+    .populate('ungtuyenvien')
+    .populate('tintuyendung').then(data => {
+               let result = data
+               res.json(result)
+           }).catch(error => {
+               res.status(400).send(error.message || error);
+           })
+});
+
 //  Get All Don ung tuyen by id tin tuyen dung 
 const getAllDonUngTuyenByTinTuyenDung = asyncHandler(async (req, res) => {
     const tintuyendungId = req.params.tintuyendungId;
@@ -97,5 +109,6 @@ module.exports = {
     getAllDonUngTuyenByTinTuyenDung,
     getAllDonUngTuyenByUngTuyenVien,
     updateDonUngTuyen,
-    deleteDonUngTuyen
+    deleteDonUngTuyen,
+    getAllDonUngTuyenByNhaTuyenDung
 }
