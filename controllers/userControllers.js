@@ -341,26 +341,20 @@ const getOTPById = asyncHandler(async (req, res) => {
   }).catch(err => console.log(err))
 
 });
-// sửa thông tin user(username)
-const update = asyncHandler(async (req, res) => {
-  const { _id, username, pic } = req.body;
+// đổi mật khẩu
 
-  const updateInfo = await User.findByIdAndUpdate(
-    _id,
-    {
-      username,
-      pic,
-    },
-    {
-      new: true,
-    }
-  );
-  if (!updateInfo) {
-    res.status(400);
-    throw new Error("User not found");
-  } else {
-    res.json(updateInfo);
-  }
+const update = asyncHandler(async (req, res) => {
+  const email = req.body.email;
+  const password =  req.body.password;
+  const salt = await bcrypt.genSalt(10);
+  const password2 = await bcrypt.hash(password, salt);
+  await User.updateOne({email}, { password: password2 }
+  ).then((data) => {
+    res.json(data);
+  }).catch((err) => {
+    res.send(err);
+  });
+
 });
 
 
