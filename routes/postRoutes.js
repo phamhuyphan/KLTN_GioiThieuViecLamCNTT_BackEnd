@@ -12,7 +12,8 @@ const {
     searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong,
     accessTinTuyenDungSortCreatAt,
     accessTinTuyenDungSortLuong,
-    accessTinTuyenDungSortOption
+    accessTinTuyenDungSortOption,
+    searchTinTuyenDUngByTieuDeAndSort
   } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
@@ -30,6 +31,7 @@ router.route("/").delete(protect,deleteTinTuyenDung);
 router.route("/:id").get(protect,getTinTuyenDungById);
 router.route("/getByNhaTuyenDung/:nhatuyendungId").get(getAllTinTuyenDungByIdNhaTuyenDung);
 router.route("/search/:tieude").get(searchTinTuyenDUngByTieuDe);
+router.route("/search/sort/:tieude").get(searchTinTuyenDUngByTieuDeAndSort);
 router.route("/emailfeedback").post(protect,feedbackEmail);
 module.exports = router;
 

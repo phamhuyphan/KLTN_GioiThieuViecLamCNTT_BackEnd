@@ -121,6 +121,68 @@ const searchTinTuyenDUngByTieuDe = asyncHandler(async (req, res) => {
     }
 });
 
+//Search Tin Tuyên dụng theo tiêu đề and sort 
+const searchTinTuyenDUngByTieuDeAndSort = asyncHandler(async (req, res) => {
+  try {
+      const tieude = req.params.tieude;
+      const optionDate = req.body.optionDate;
+      const optionLuong = req.body.optionLuong;
+
+      if(optionDate == -1){
+        const regex = new RegExp(tieude, 'i');
+        await Post.find({ tieude: regex })
+            .sort({ createdAt: -1 })
+            .exec()
+            .then(data => {
+              let result = data
+              res.json(result)
+          }).catch(error => {
+              res.status(400).send(error.message || error);
+          })
+      const optionLuong = req.body.optionLuong;
+      }else if(optionLuong == -1){
+        const regex = new RegExp(tieude, 'i');
+         await Post.aggregate([
+          {
+            $match: {
+              tieude: regex
+            }
+          },
+          { 
+            $addFields: {
+              luong: {
+                $toDouble: {
+                  $arrayElemAt: [
+                    { $split: ["$mucluong", " - "] },
+                    0
+                  ]
+                }
+              }
+            }
+          },
+          { $sort: { luong: -1 } }
+        ]).then(data => {
+          let result = data
+          res.json(result)
+        }).catch(error => {
+            res.status(400).send(error.message || error);
+        })
+      }else{
+        const regex = new RegExp(tieude, 'i');
+        await Post.find({ tieude: regex })
+            .then(data => {
+              let result = data
+              res.json(result)
+          }).catch(error => {
+              res.status(400).send(error.message || error);
+          })
+      }
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
 //Search Tin Tuyên dụng theo lĩnh vực cấp bật và mức lương
 // ngon ngu : 
 const searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong = asyncHandler(async (req, res) => {
@@ -373,5 +435,6 @@ module.exports = {
     feedbackEmail,
     accessTinTuyenDungSortCreatAt,
     accessTinTuyenDungSortLuong,
-    accessTinTuyenDungSortOption
+    accessTinTuyenDungSortOption,
+    searchTinTuyenDUngByTieuDeAndSort
 }
