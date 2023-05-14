@@ -128,6 +128,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       loaitaikhoan:user.loaitaikhoan,
       //isAdmin: user.isAdmin,
+      statusOnline:user.statusOnline,
       pic: user.pic,
       token: generateToken(user._id),
     });
