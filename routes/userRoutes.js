@@ -29,7 +29,7 @@ router.route("/verify/:id").post(getOTPById);
 router.post("/login", authUser);
 router.post("/:email", getUserByEmail);
 router.post("/:id", getUserById);
-router.post("/forgot-password/",forgotPassword);
+router.post("/forgot-password/email",forgotPassword);
 router.post("/forgot-password/:userId/reset",reserPassword);
 router.route("/reset").put(protect,recoveryPasword);
 router.route("/update/password").put(protect,update);

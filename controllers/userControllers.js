@@ -367,7 +367,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
       return res.json({ status: "User Not Exists!!" });
     }
  
-    const link = `http://localhost:3000/reset-password/${oldUser._id}`;
+    const link = `http://localhost:9000/reset-password/${oldUser._id}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
