@@ -173,8 +173,6 @@ const recoveryPasword  = asyncHandler(async (req, res) => {
   const password = process.env.PASSWORD_RESET;
   const salt = await bcrypt.genSalt(10);
   const password2 = await bcrypt.hash(password, salt);
-  console.log(password);
-  console.log(password2);
   await User.updateOne({email}, { password: password2 }
   ).then((data) => {
     res.json(data);
@@ -344,17 +342,19 @@ const getOTPById = asyncHandler(async (req, res) => {
 // đổi mật khẩu
 
 const update = asyncHandler(async (req, res) => {
-  const email = req.body.email;
-  const password =  req.body.password;
+
+  const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
   const password2 = await bcrypt.hash(password, salt);
-  await User.updateOne({email}, { password: password2 }
-  ).then((data) => {
-    res.json(data);
-  }).catch((err) => {
-    res.send(err);
-  });
-
+  await User.updateOne(
+    { email },
+    { password: password2 }
+  ).then(data => {
+    let result = data
+    res.json(result)
+}).catch(error => {
+    res.status(400).send(error.message || error);
+})
 });
 
 

@@ -32,5 +32,5 @@ router.post("/:id", getUserById);
 router.post("/forgot-password/:userId",forgotPassword);
 router.post("/forgot-password/:userId/reset",reserPassword);
 router.route("/reset").put(protect,recoveryPasword);
-router.route("/update").put(protect,update);
+router.route("/update/password").put(protect,update);
 module.exports = router;
