@@ -390,7 +390,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
         return res.status(500).json({ error: "Failed to send email" });
       } else {
         console.log("Email sent: " + info.response);
-        return res.status(200).json({ message: "Email sent successfully" });
+        return res.status(200).json({ userId: oldUser._id });
       }
     });
   } catch (error) {
