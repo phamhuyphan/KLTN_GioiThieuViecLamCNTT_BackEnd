@@ -387,11 +387,16 @@ const forgotPassword = asyncHandler(async (req, res) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
+        return res.status(500).json({ error: "Failed to send email" });
       } else {
         console.log("Email sent: " + info.response);
+        return res.status(200).json({ message: "Email sent successfully" });
       }
     });
-  } catch (error) { }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
+   }
 });
 
 module.exports = {
