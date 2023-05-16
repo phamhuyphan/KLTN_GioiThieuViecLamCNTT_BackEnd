@@ -4,6 +4,7 @@ const generateToken = require("../config/generateToken");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const UserOTPVerification = require("../models/userOTPVarification")
 dotenv.config();
 
@@ -399,6 +400,73 @@ const forgotPassword = asyncHandler(async (req, res) => {
    }
 });
 
+// api nhập vào email gửi về link đến trang forgot password v2
+const forgotPasswordv2 = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Kiểm tra và tạo token
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Tạo transporter cho Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+      },
+    });
+
+    // Tạo đường dẫn đặt lại mật khẩu với token
+    const resetPasswordLink = `http://localhost:9000/reset-password?token=${token}`;
+
+    // Tạo nội dung email
+    const mailOptions = {
+      from: process.env.MAIL_FROM_ADDRESS,
+      to: email,
+      subject: 'Reset Password',
+      html: `<p>Click <a href="${resetPasswordLink}">here</a> to reset your password.</p>`,
+    };
+
+    // Gửi email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to send email' });
+  }
+});
+
+// api đổi mật khẩu sao khi click vào link trong email v2
+const reserPasswordv2 = asyncHandler(async (req, res) => {
+
+  const { token, password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
+
+    const salt = await bcrypt.genSalt(10);
+    const password2 = await bcrypt.hash(password, salt);
+  
+    await User.updateOne(
+      { email },
+      { password: password2 }
+    ).then(data => {
+      let result = data
+      res.json(result)
+    }).catch(error => {
+        res.status(400).send(error.message || error);
+    })
+
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ error: 'Invalid or expired token' });
+  }
+})
+
 module.exports = {
   getUserByEmail,
   allUsers,
@@ -414,5 +482,7 @@ module.exports = {
   deleteUserById,
   blockUserById,
   recoveryPasword,
-  unblockUserById
+  unblockUserById,
+  forgotPasswordv2,
+  reserPasswordv2
 };

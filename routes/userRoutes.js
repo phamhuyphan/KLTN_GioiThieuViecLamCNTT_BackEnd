@@ -13,7 +13,9 @@ const {
   deleteUserById,
   blockUserById,
   recoveryPasword,
-  unblockUserById
+  unblockUserById,
+  forgotPasswordv2,
+  reserPasswordv2
 } = require("../controllers/userControllers");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -33,4 +35,6 @@ router.post("/forgot-password/email",forgotPassword);
 router.post("/forgot-password/:userId/reset",reserPassword);
 router.route("/reset").put(protect,recoveryPasword);
 router.route("/update/password").put(protect,update);
+router.post("/reset/forgot-password",forgotPasswordv2);
+router.post("/reset/reset-password",reserPasswordv2);
 module.exports = router;
