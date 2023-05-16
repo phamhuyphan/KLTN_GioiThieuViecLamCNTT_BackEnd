@@ -10,11 +10,11 @@ const {
 
   const router = express.Router();
   
-router.route("/").get(protect,accessNgonNgu);
+router.route("/").get(accessNgonNgu);
 router.route("/").post(protect,createNgonNgu);
 router.route("/update").put(protect,updateNgonNgu);
 router.route("/:ngonnguId").delete(protect,deleteNgonNgu);
-router.route("/:id").get(protect,getNgonNguById);
+router.route("/:id").get(getNgonNguById);
 
 module.exports = router;
 

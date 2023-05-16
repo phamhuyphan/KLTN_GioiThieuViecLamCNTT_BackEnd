@@ -10,11 +10,11 @@ const {
 
   const router = express.Router();
   
-router.route("/").get(protect,accessYeuThich);
-router.route("/:ungtuyenvienId").get(protect,getAllYeuThichByUngTuyenVien);
+router.route("/").get(accessYeuThich);
+router.route("/:ungtuyenvienId").get(getAllYeuThichByUngTuyenVien);
 router.route("/tintuyendung/:tintuyendungId").get(protect,getAllYeuThichByTinTuyenDung);
 router.route("/").post(protect,createYeuThich);
-router.route("/:yeuThichId").delete(protect,deleteYeuThich);
+router.route("/:yeuThichId").delete(deleteYeuThich);
 
 module.exports = router;
 

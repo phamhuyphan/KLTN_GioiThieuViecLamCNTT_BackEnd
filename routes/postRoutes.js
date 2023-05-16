@@ -28,7 +28,7 @@ router.route("/").post(protect,createTinTuyenDung);
 router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
-router.route("/:id").get(protect,getTinTuyenDungById);
+router.route("/:id").get(getTinTuyenDungById);
 router.route("/getByNhaTuyenDung/:nhatuyendungId").get(getAllTinTuyenDungByIdNhaTuyenDung);
 router.route("/search/:tieude").get(searchTinTuyenDUngByTieuDe);
 router.route("/search/sort/:tieude").get(searchTinTuyenDUngByTieuDeAndSort);
