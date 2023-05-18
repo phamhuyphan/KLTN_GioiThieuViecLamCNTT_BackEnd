@@ -1,7 +1,13 @@
 const asyncHandler = require("express-async-handler")
 const nodemailer = require("nodemailer");
+const Filter = require('bad-words');
 const Post = require("../models/tinTuyenDungModel")
 const NhaTuyenDung = require("../models/nhaTuyenDungModel")
+const dotenv = require('dotenv');
+dotenv.config();
+const filter = new Filter();
+const wordList = process.env.BAD_WORDS.split(',');
+filter.addWords(...wordList);
 
 //  Get All Tin Tuyển Dụng
 const accessTinTuyenDung = asyncHandler(async (req, res) => {
@@ -331,6 +337,182 @@ const createTinTuyenDung = asyncHandler(async (req, res) => {
 
 })
 
+//Tạo tin tuyển dụng có kiểm tra vi phạm thỏa thuuận của trang web
+const createTinTuyenDungHaveAutoDuyet = asyncHandler(async (req, res) => {
+
+  let flag = true;
+
+ const tieude = req.body.tieude;
+
+ const vitri=req.body.vitri;
+
+ const soLuongTuyen=req.body.soLuongTuyen;// ko kiểm tra
+
+ const kinhNghiem=req.body.kinhNghiem;
+  
+ const diaChi=req.body.diaChi;
+  
+ const hinhThucLamViec=req.body.hinhThucLamViec;
+  
+ const moTaCongViec=req.body.moTaCongViec;
+  
+ const ngayHetHan=req.body.ngayHetHan; //ko kiểm tra
+  
+ const moTaYeuCau=req.body.moTaCongViec;
+  
+ const quyenLoiUngVien=req.body.quyenLoiUngVien;
+  
+ const tenNguoiLienHe=req.body.tenNguoiLienHe;
+  
+ const soDienThoaiLienHe=req.body.soDienThoaiLienHe;
+  
+ const emailLienHe=req.body.emailLienHe;
+
+ const gioitinh=req.body.gioitinh;//ko kiểm tra
+
+ const mucluong=req.body.mucluong;
+
+ const  bangcap=req.body.bangcap;
+
+ const  tutuoi=req.body.tutuoi;//ko kiểm tra
+
+ const dentuoi=req.body.dentuoi;//ko kiểm tra
+
+ const trangthai=req.body.trangthai;//ko kiểm tra
+
+ const nganhnghe=req.body.nganhnghe;
+
+ const ngonngu=req.body.ngonngu;
+
+ const  nhatuyendung=req.body.nhatuyendung
+
+  if(filter.isProfane(tieude) || filter.isProfane(vitri) || filter.isProfane(kinhNghiem) || filter.isProfane(diaChi)
+    || filter.isProfane(hinhThucLamViec) || filter.isProfane(soLuongTuyen) || filter.isProfane(moTaCongViec) || filter.isProfane(ngayHetHan)
+    || filter.isProfane(moTaYeuCau) || filter.isProfane(quyenLoiUngVien) || filter.isProfane(tenNguoiLienHe) || filter.isProfane(soDienThoaiLienHe)
+    || filter.isProfane(emailLienHe) || filter.isProfane(gioitinh) || filter.isProfane(mucluong) || filter.isProfane(bangcap) || filter.isProfane(tutuoi)
+    || filter.isProfane(dentuoi) ||  filter.isProfane(trangthai)
+  ){
+    flag = false;
+  }
+
+  if(flag == true){
+    const post = await  Post.create({
+
+      tieude,
+    
+      vitri,
+    
+      soLuongTuyen,
+    
+      kinhNghiem,
+      
+      diaChi,
+      
+      hinhThucLamViec,
+      
+      moTaCongViec,
+      
+      ngayHetHan,
+      
+      moTaYeuCau,
+      
+      quyenLoiUngVien,
+      
+      tenNguoiLienHe,
+      
+      soDienThoaiLienHe,
+      
+      emailLienHe,
+    
+      gioitinh,
+    
+      mucluong,
+    
+      bangcap,
+    
+      tutuoi,
+    
+      dentuoi,
+    
+      trangthai,
+    
+      nganhnghe,
+    
+      ngonngu,
+    
+      nhatuyendung
+      })
+      const c = await post.populate("nganhnghe")
+      const a = await post.populate("ngonngu")
+      const b = await post.populate("nhatuyendung")
+      .then(data => {
+          let result = data;
+          res.json(result);
+      }).catch(error => {
+          res.status(400).send(error.message || error)
+      })
+  }else{
+    const post = await  Post.create({
+
+      tieude,
+    
+      vitri,
+    
+      soLuongTuyen,
+    
+      kinhNghiem,
+      
+      diaChi,
+      
+      hinhThucLamViec,
+      
+      moTaCongViec,
+      
+      ngayHetHan,
+      
+      moTaYeuCau,
+      
+      quyenLoiUngVien,
+      
+      tenNguoiLienHe,
+      
+      soDienThoaiLienHe,
+      
+      emailLienHe,
+    
+      gioitinh,
+    
+      mucluong,
+    
+      bangcap,
+    
+      tutuoi,
+    
+      dentuoi,
+    
+      trangthai:"Từ chối",
+    
+      nganhnghe,
+    
+      ngonngu,
+    
+      nhatuyendung
+      })
+      const c = await post.populate("nganhnghe")
+      const a = await post.populate("ngonngu")
+      const b = await post.populate("nhatuyendung")
+      .then(data => {
+          let result = data;
+          res.json(result);
+      }).catch(error => {
+          res.status(400).send(error.message || error)
+      })
+  }
+
+})
+
+
+
 const deleteTinTuyenDung = asyncHandler(async (req, res) => {
     const { postId } = req.body;
     let deletePost = await Post.deleteOne({_id:postId})
@@ -436,5 +618,6 @@ module.exports = {
     accessTinTuyenDungSortCreatAt,
     accessTinTuyenDungSortLuong,
     accessTinTuyenDungSortOption,
-    searchTinTuyenDUngByTieuDeAndSort
+    searchTinTuyenDUngByTieuDeAndSort,
+    createTinTuyenDungHaveAutoDuyet
 }

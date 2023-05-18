@@ -13,7 +13,8 @@ const {
     accessTinTuyenDungSortCreatAt,
     accessTinTuyenDungSortLuong,
     accessTinTuyenDungSortOption,
-    searchTinTuyenDUngByTieuDeAndSort
+    searchTinTuyenDUngByTieuDeAndSort,
+    createTinTuyenDungHaveAutoDuyet
   } = require("../controllers/tinTuyenDungControllers")
   const { protect } = require("../middlewares/authMiddleware")
 
@@ -25,6 +26,7 @@ router.route("/sortLuong").get(accessTinTuyenDungSortLuong);
 router.route("/sort").get(accessTinTuyenDungSortOption);
 router.route("/searchluongcapbatchucvu").get(searchTinTuyenDUngByLinhVucAnhCapBatAndMucLuong);
 router.route("/").post(protect,createTinTuyenDung);
+router.route("/haveDuyet").post(protect,createTinTuyenDungHaveAutoDuyet);
 router.route("/duyet").put(protect,duyetTinTuyenDung);
 router.route("/update").put(protect,updateTinTuyenDung);
 router.route("/").delete(protect,deleteTinTuyenDung);
